@@ -239,8 +239,8 @@ if(PKG_CONFIG_EXECUTABLE AND NOT STARPU_GIVEN_BY_USER)
 	message(STATUS "Looking for STARPU MPI - found using PkgConfig")
       else()
 	message(STATUS "${Magenta}Looking for STARPU MPI - not found using PkgConfig."
-	  "Perhaps you should add the directory containing libstarpumpi.pc to"
-	  "the PKG_CONFIG_PATH environment variable.${ColourReset}")
+	  " Perhaps you should add the directory containing libstarpumpi.pc to"
+	  " the PKG_CONFIG_PATH environment variable.${ColourReset}")
       endif()
     endif()
   endif()
@@ -251,7 +251,7 @@ if(PKG_CONFIG_EXECUTABLE AND NOT STARPU_GIVEN_BY_USER)
       if(STARPU_FIND_REQUIRED AND NOT STARPU_FIND_QUIETLY)
 	message(FATAL_ERROR
 	  "STARPU version found is ${STARPU_VERSION_STRING}"
-	  "when required is ${STARPU_FIND_VERSION}")
+	  " when required is ${STARPU_FIND_VERSION}")
       endif()
     endif()
   else()
@@ -261,7 +261,7 @@ if(PKG_CONFIG_EXECUTABLE AND NOT STARPU_GIVEN_BY_USER)
       if(STARPU_FIND_REQUIRED AND NOT STARPU_FIND_QUIETLY)
 	message(FATAL_ERROR
 	  "STARPU version found is ${STARPU_VERSION_STRING}"
-	  "when required is ${STARPU_FIND_VERSION} or newer")
+	  " when required is ${STARPU_FIND_VERSION} or newer")
       endif()
     endif()
   endif()
@@ -427,7 +427,7 @@ if( (NOT PKG_CONFIG_EXECUTABLE) OR (PKG_CONFIG_EXECUTABLE AND NOT STARPU_FOUND) 
       if(STARPU_FIND_REQUIRED AND NOT STARPU_FIND_QUIETLY)
 	message(FATAL_ERROR
 	  "STARPU version has not been found using starpu_config.h"
-	  "located in ${STARPU_starpu_config.h_INCLUDE_DIRS}")
+	  " located in ${STARPU_starpu_config.h_INCLUDE_DIRS}")
       endif()
     endif()
   else()
@@ -919,8 +919,8 @@ if(NOT STARPU_FIND_QUIETLY)
     message(STATUS "StarPU library has been found.")
     if(STARPU_MPI_LIBRARIES)
       message(STATUS "The mpi version of StarPU has been found so that we manage"
-	"two lists of libs, one sequential and one parallel (see"
-	"STARPU_SHM_LIBRARIES and STARPU_MPI_LIBRARIES).")
+	" two lists of libs, one sequential and one parallel (see"
+	" STARPU_SHM_LIBRARIES and STARPU_MPI_LIBRARIES).")
     endif()
     message(STATUS "StarPU shared memory libraries stored in STARPU_SHM_LIBRARIES")
   endif()
