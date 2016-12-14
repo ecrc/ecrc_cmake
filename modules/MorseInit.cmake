@@ -30,6 +30,9 @@
 # This include is required to check symbols of libs in the main CMakeLists.txt
 include(CheckFunctionExists)
 
+# This include is required to check defines in headers
+include(CheckIncludeFiles)
+
 # To colorize messages
 #include(ColorizeMessage)
 
