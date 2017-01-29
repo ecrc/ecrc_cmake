@@ -469,7 +469,7 @@ subs = {
     ('strsm',          'dtrsm',          'ctrsm',          'ztrsm'           ),
     ('strsv',          'dtrsv',          'ctrsv',          'ztrsv'           ),
 
-# ADD FOR NEW VERSION OF CHAMELEON
+# ADD FOR NEW VERSION OF HICMA
     ('shbcpy',         'dhbcpy',         'chbcpy',         'zhbcpy'          ),
     ('ssyrbt',         'dsyrbt',         'cherbt',         'zherbt'          ),
     ('ssygv',          'dsygv',          'chegv',          'zhegv'           ),
