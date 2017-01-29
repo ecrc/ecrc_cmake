@@ -1,4 +1,4 @@
-# - Find MPI EXTENDED for MORSE projects:
+# - Find MPI EXTENDED for HICMA projects:
 #
 # This module allows to find MPI libraries by calling the official FindMPI module
 # and adds an additional variable indicating the level of thread supported:
@@ -12,7 +12,7 @@
 # Copyright 2013      Florent Pruvost
 #
 # Distributed under the OSI-approved BSD License (the "License");
-# see accompanying file MORSE-Copyright.txt for details.
+# see accompanying file HICMA-Copyright.txt for details.
 #
 # This software is distributed WITHOUT ANY WARRANTY; without even the
 # implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.

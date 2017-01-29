@@ -1,4 +1,4 @@
-#+TITLE: MORSE CMake "Find modules" documentation
+#+TITLE: HICMA CMake "Find modules" documentation
 #+AUTHOR: HiePACS
 #+LANGUAGE:  en
 #+OPTIONS: H:3 num:t toc:t \n:nil @:t ::t |:t _:nil ^:nil -:t f:t *:t <:t
@@ -14,7 +14,7 @@
 #+HTML_HEAD:   <link rel="stylesheet" type="text/css" href="css/VisuGen.css" />
 #+HTML_HEAD:   <link rel="stylesheet" type="text/css" href="css/VisuRubriqueEncadre.css" />
 
-This document aims at documenting MORSE find_package CMake modules
+This document aims at documenting HICMA find_package CMake modules
 which allow to detect library dependencies on UNIX systems (mainly
 Linux and MAC OS X). These additional modules have been written
 because either, they are not distributed by the CMake community, or,
@@ -47,10 +47,10 @@ list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake_modules")
 find_package(LIBNAME)
 #+END_EXAMPLE
 
-To use MORSE modules you can add the path to the modules in your CMake
+To use HICMA modules you can add the path to the modules in your CMake
 project like this
 #+BEGIN_EXAMPLE
-list(APPEND CMAKE_MODULE_PATH "${MORSE_DISTRIB_DIR}/cmake_modules/morse/find" )
+list(APPEND CMAKE_MODULE_PATH "${HICMA_DISTRIB_DIR}/cmake_modules/hicma/find" )
 #+END_EXAMPLE
 
 * Internal mechanism: what a "find" mainly do, what are the paths scanned?

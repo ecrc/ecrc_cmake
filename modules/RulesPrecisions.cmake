@@ -9,8 +9,8 @@
 #
 #  @file RulesPrecisions.cmake
 #
-#  @project MORSE
-#  MORSE is a software package provided by:
+#  @project HICMA
+#  HICMA is a software package provided by:
 #     Inria Bordeaux - Sud-Ouest,
 #     Univ. of Tennessee,
 #     King Abdullah Univesity of Science and Technology
@@ -29,14 +29,14 @@
 cmake_minimum_required(VERSION 2.8)
 include(CMakeDependentOption)
 
-set(RP_GENDEPENDENCIES ${MORSE_CMAKE_MODULE_PATH}/precision_generator/genDependencies.py)
-set(RP_CODEGEN         ${MORSE_CMAKE_MODULE_PATH}/precision_generator/codegen.py)
+set(RP_GENDEPENDENCIES ${HICMA_CMAKE_MODULE_PATH}/precision_generator/genDependencies.py)
+set(RP_CODEGEN         ${HICMA_CMAKE_MODULE_PATH}/precision_generator/codegen.py)
 
 # Dictionnary
 # -----------
 if( NOT DEFINED RP_${CMAKE_PROJECT_NAME}_DICTIONNARY )
   message( WARNING "RulesPrecisions included before RP_${CMAKE_PROJECT_NAME}_DICTIONNARY was defined (Default is used)" )
-  set(RP_${CMAKE_PROJECT_NAME}_DICTIONNARY ${MORSE_CMAKE_MODULE_PATH}/precision_generator/subs.py
+  set(RP_${CMAKE_PROJECT_NAME}_DICTIONNARY ${HICMA_CMAKE_MODULE_PATH}/precision_generator/subs.py
     CACHE INTERNAL "Dictionnary used for precision generation" )
 else()
   set(RP_${CMAKE_PROJECT_NAME}_DICTIONNARY ${RP_${CMAKE_PROJECT_NAME}_DICTIONNARY}

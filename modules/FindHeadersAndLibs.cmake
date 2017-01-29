@@ -10,8 +10,8 @@
 #
 #  @file FindHeadersAndLibs.cmake
 #
-#  @project MORSE
-#  MORSE is a software package provided by:
+#  @project HICMA
+#  HICMA is a software package provided by:
 #     Inria Bordeaux - Sud-Ouest,
 #     Univ. of Tennessee,
 #     King Abdullah Univesity of Science and Technology
@@ -28,10 +28,10 @@
 ###
 
 # Add the path where we handle our FindFOO.cmake to seek for liraries
-list(APPEND CMAKE_MODULE_PATH ${MORSE_CMAKE_MODULE_PATH}/find)
+list(APPEND CMAKE_MODULE_PATH ${HICMA_CMAKE_MODULE_PATH}/find)
 
 # Some macros to print status when search for headers and libs
-# PrintFindStatus.cmake is in cmake_modules/morse/find directory
+# PrintFindStatus.cmake is in cmake_modules/hicma/find directory
 include(PrintFindStatus)
 
 

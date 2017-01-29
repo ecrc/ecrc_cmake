@@ -10,8 +10,8 @@
 #
 #  @file AuxilaryFlags.cmake
 #
-#  @project MORSE
-#  MORSE is a software package provided by:
+#  @project HICMA
+#  HICMA is a software package provided by:
 #     Inria Bordeaux - Sud-Ouest,
 #     Univ. of Tennessee,
 #     King Abdullah Univesity of Science and Technology
@@ -31,7 +31,7 @@
 #  - CMAKE_Fortran_FREEFORM_FLAG : Force free format.
 ###
 
-if (MORSE_ENABLE_WARNING)
+if (HICMA_ENABLE_WARNING)
 
   if(CMAKE_C_COMPILER_ID MATCHES GNU)
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall")
@@ -51,35 +51,35 @@ if (MORSE_ENABLE_WARNING)
     set(CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} -warn all -diag-disable:remark")
   endif()
 
-endif(MORSE_ENABLE_WARNING)
+endif(HICMA_ENABLE_WARNING)
 
-if (MORSE_ENABLE_COVERAGE)
+if (HICMA_ENABLE_COVERAGE)
 
   if(CMAKE_C_COMPILER_ID MATCHES GNU)
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} --coverage")
   else()
     message(FATAL_ERROR "Code coverage is only available with the GNU C (gcc)"
-      "\n   compiler, please turn MORSE_ENABLE_COVERAGE OFF\n.")
+      "\n   compiler, please turn HICMA_ENABLE_COVERAGE OFF\n.")
   endif()
 
   if(CMAKE_CXX_COMPILER_ID MATCHES GNU)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --coverage")
   else()
     message(FATAL_ERROR "Code coverage is only available with the GNU CXX"
-      "\n   (g++) compiler, please turn MORSE_ENABLE_COVERAGE OFF\n.")
+      "\n   (g++) compiler, please turn HICMA_ENABLE_COVERAGE OFF\n.")
   endif()
 
   if(CMAKE_Fortran_COMPILER_ID MATCHES GNU)
     set(CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} --coverage")
   else()
     message(FATAL_ERROR "Code coverage is only available with the GNU"
-      "\n   Fortran (gfortran) compiler, please turn MORSE_ENABLE_COVERAGE"
+      "\n   Fortran (gfortran) compiler, please turn HICMA_ENABLE_COVERAGE"
       "\n   OFF\n.")
   endif()
 
   set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} --coverage")
 
-endif(MORSE_ENABLE_COVERAGE)
+endif(HICMA_ENABLE_COVERAGE)
 
 
 if(CMAKE_Fortran_COMPILER_ID MATCHES GNU)

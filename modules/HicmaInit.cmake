@@ -10,8 +10,8 @@
 #
 #  @file MorseInit.cmake
 #
-#  @project MORSE
-#  MORSE is a software package provided by:
+#  @project HICMA
+#  HICMA is a software package provided by:
 #     Inria Bordeaux - Sud-Ouest,
 #     Univ. of Tennessee,
 #     King Abdullah Univesity of Science and Technology
@@ -40,7 +40,7 @@ include(CheckIncludeFiles)
 include(FindHeadersAndLibs)
 
 # Some macros to print status when search for headers and libs
-# PrintFindStatus.cmake is in cmake_modules/morse/find directory
+# PrintFindStatus.cmake is in cmake_modules/hicma/find directory
 include(PrintFindStatus)
 
 # Define some auxilary flags
@@ -50,12 +50,12 @@ include(AuxilaryFlags)
 include(Ressources)
 
 # Add the path where we handle our FindFOO.cmake to seek for liraries
-list(APPEND CMAKE_MODULE_PATH ${MORSE_CMAKE_MODULE_PATH}/find)
+list(APPEND CMAKE_MODULE_PATH ${HICMA_CMAKE_MODULE_PATH}/find)
 
-option(MORSE_ENABLE_WARNING       "Enable warning messages" OFF)
-option(MORSE_ENABLE_COVERAGE      "Enable flags for coverage test" OFF)
-#option(MORSE_VERBOSE_FIND_PACKAGE "Add additional messages concerning packages not found" OFF)
-#message(STATUS "MORSE_VERBOSE_FIND_PACKAGE is set to OFF, turn it ON to get"
+option(HICMA_ENABLE_WARNING       "Enable warning messages" OFF)
+option(HICMA_ENABLE_COVERAGE      "Enable flags for coverage test" OFF)
+#option(HICMA_VERBOSE_FIND_PACKAGE "Add additional messages concerning packages not found" OFF)
+#message(STATUS "HICMA_VERBOSE_FIND_PACKAGE is set to OFF, turn it ON to get"
 #        "   information about packages not found")
 
 ##

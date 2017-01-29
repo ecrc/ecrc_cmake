@@ -59,7 +59,7 @@
 # Copyright 2013-2016 Florent Pruvost
 #
 # Distributed under the OSI-approved BSD License (the "License");
-# see accompanying file MORSE-Copyright.txt for details.
+# see accompanying file HICMA-Copyright.txt for details.
 #
 # This software is distributed WITHOUT ANY WARRANTY; without even the
 # implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
@@ -411,35 +411,35 @@ if( (NOT PKG_CONFIG_EXECUTABLE) OR (PKG_CONFIG_EXECUTABLE AND NOT CHAMELEON_FOUN
   # ---------------------------------------------------
   # call cmake macro to find the header path
   if(CHAMELEON_INCDIR)
-    set(CHAMELEON_morse.h_DIRS "CHAMELEON_morse.h_DIRS-NOTFOUND")
-    find_path(CHAMELEON_morse.h_DIRS
-      NAMES morse.h
+    set(CHAMELEON_hicma.h_DIRS "CHAMELEON_hicma.h_DIRS-NOTFOUND")
+    find_path(CHAMELEON_hicma.h_DIRS
+      NAMES hicma.h
       HINTS ${CHAMELEON_INCDIR})
   else()
     if(CHAMELEON_DIR)
-      set(CHAMELEON_morse.h_DIRS "CHAMELEON_morse.h_DIRS-NOTFOUND")
-      find_path(CHAMELEON_morse.h_DIRS
-	NAMES morse.h
+      set(CHAMELEON_hicma.h_DIRS "CHAMELEON_hicma.h_DIRS-NOTFOUND")
+      find_path(CHAMELEON_hicma.h_DIRS
+	NAMES hicma.h
 	HINTS ${CHAMELEON_DIR}
 	PATH_SUFFIXES "include" "include/chameleon")
     else()
-      set(CHAMELEON_morse.h_DIRS "CHAMELEON_morse.h_DIRS-NOTFOUND")
-      find_path(CHAMELEON_morse.h_DIRS
-	NAMES morse.h
+      set(CHAMELEON_hicma.h_DIRS "CHAMELEON_hicma.h_DIRS-NOTFOUND")
+      find_path(CHAMELEON_hicma.h_DIRS
+	NAMES hicma.h
 	HINTS ${_inc_env}
 	PATH_SUFFIXES "chameleon")
     endif()
   endif()
-  mark_as_advanced(CHAMELEON_morse.h_DIRS)
+  mark_as_advanced(CHAMELEON_hicma.h_DIRS)
 
   # If found, add path to cmake variable
   # ------------------------------------
-  if (CHAMELEON_morse.h_DIRS)
-    set(CHAMELEON_INCLUDE_DIRS "${CHAMELEON_morse.h_DIRS}")
+  if (CHAMELEON_hicma.h_DIRS)
+    set(CHAMELEON_INCLUDE_DIRS "${CHAMELEON_hicma.h_DIRS}")
   else ()
     set(CHAMELEON_INCLUDE_DIRS "CHAMELEON_INCLUDE_DIRS-NOTFOUND")
     if(NOT CHAMELEON_FIND_QUIETLY)
-      message(STATUS "Looking for chameleon -- morse.h not found")
+      message(STATUS "Looking for chameleon -- hicma.h not found")
     endif()
   endif()
 
@@ -736,7 +736,7 @@ if( (NOT PKG_CONFIG_EXECUTABLE) OR (PKG_CONFIG_EXECUTABLE AND NOT CHAMELEON_FOUN
     # test link
     unset(CHAMELEON_WORKS CACHE)
     include(CheckFunctionExists)
-    check_function_exists(MORSE_Init CHAMELEON_WORKS)
+    check_function_exists(HICMA_Init CHAMELEON_WORKS)
     mark_as_advanced(CHAMELEON_WORKS)
 
     if(CHAMELEON_WORKS)
@@ -750,7 +750,7 @@ if( (NOT PKG_CONFIG_EXECUTABLE) OR (PKG_CONFIG_EXECUTABLE AND NOT CHAMELEON_FOUN
       list(REMOVE_DUPLICATES CHAMELEON_LINKER_FLAGS)
     else()
       if(NOT CHAMELEON_FIND_QUIETLY)
-	message(STATUS "Looking for chameleon : test of MORSE_Init fails")
+	message(STATUS "Looking for chameleon : test of HICMA_Init fails")
 	message(STATUS "CMAKE_REQUIRED_LIBRARIES: ${CMAKE_REQUIRED_LIBRARIES}")
 	message(STATUS "CMAKE_REQUIRED_INCLUDES: ${CMAKE_REQUIRED_INCLUDES}")
 	message(STATUS "Check in CMakeFiles/CMakeError.log to figure out why it fails")

@@ -8,7 +8,7 @@
 #
 ###
 #
-# - Find BLAS EXTENDED for MORSE projects: find include dirs and libraries
+# - Find BLAS EXTENDED for HICMA projects: find include dirs and libraries
 #
 # This module allows to find BLAS libraries by calling the official FindBLAS module
 # and handles the creation of different library lists whether the user wishes to link
@@ -31,7 +31,7 @@
 # Copyright 2013-2016 Florent Pruvost
 #
 # Distributed under the OSI-approved BSD License (the "License");
-# see accompanying file MORSE-Copyright.txt for details.
+# see accompanying file HICMA-Copyright.txt for details.
 #
 # This software is distributed WITHOUT ANY WARRANTY; without even the
 # implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
@@ -174,7 +174,7 @@ if(BLA_VENDOR MATCHES "Intel*")
   mark_as_advanced(BLAS_mkl.h_INCLUDE_DIRS)
   ## Print status if not found
   ## -------------------------
-  #if (NOT BLAS_mkl.h_INCLUDE_DIRS AND MORSE_VERBOSE)
+  #if (NOT BLAS_mkl.h_INCLUDE_DIRS AND HICMA_VERBOSE)
   #    Print_Find_Header_Status(blas mkl.h)
   #endif ()
   set(BLAS_INCLUDE_DIRS "")
