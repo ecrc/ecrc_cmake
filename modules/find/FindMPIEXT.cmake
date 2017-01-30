@@ -18,7 +18,7 @@
 # implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 # See the License for more information.
 #=============================================================================
-# (To distribute this file outside of Morse, substitute the full
+# (To distribute this file outside of Hicma, substitute the full
 #  License text for the above reference.)
 
 # add a cache variable to let the user specify the BLAS vendor

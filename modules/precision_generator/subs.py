@@ -52,8 +52,8 @@ subs = {
     ('double',                    'HICMA_Complex64_t'                ),
     ('float',                     'HICMA_voidComplex32_t'            ),
     ('double',                    'HICMA_voidComplex64_t'            ),
-    ('MorseRealFloat',            'MorseComplexFloat'                ),
-    ('MorseRealDouble',           'MorseComplexDouble'               ),
+    ('HicmaRealFloat',            'HicmaComplexFloat'                ),
+    ('HicmaRealDouble',           'HicmaComplexDouble'               ),
 
     # ----- CBLAS
     ('',                          'CBLAS_SADDR'                      ),
@@ -105,7 +105,7 @@ subs = {
     # ----- Constants
     ('CblasTrans',                'CblasConjTrans'                   ),
     ('MagmaTrans',                'MagmaConjTrans'                   ),
-    ('MorseTrans',                'MorseConjTrans'                   ),
+    ('HicmaTrans',                'HicmaConjTrans'                   ),
 
     # ----- BLAS and LAPACK, lowercase, alphabetic order
     # copy & paste these to uppercase below and fix case.
@@ -262,7 +262,7 @@ subs = {
     ('PlasmaRealFloat',      'PlasmaRealDouble',      'PlasmaComplexFloat',              r'\bPlasmaComplexDouble'              ),
     ('float',                'double',                'HICMA_Complex32_t',               r'\bHICMA_Complex64_t'                ),
     ('float',                'double',                'HICMA_voidComplex32_t',           r'\bHICMA_voidComplex64_t'            ),
-    ('MorseRealFloat',       'MorseRealDouble',       'MorseComplexFloat',               r'\bMorseComplexDouble'               ),
+    ('HicmaRealFloat',       'HicmaRealDouble',       'HicmaComplexFloat',               r'\bHicmaComplexDouble'               ),
     ('real',                 'double precision',      'complex',                         r'\bcomplex\*16'                      ),
     ('REAL',                 'DOUBLE_PRECISION',      'COMPLEX',                         r'\bCOMPLEX_16'                       ),
     ('REAL',                 'DOUBLE PRECISION',      'COMPLEX',                         r'\bDOUBLE COMPLEX'                   ),
@@ -437,7 +437,7 @@ subs = {
     # ----- Constants
     ('CblasTrans',     'CblasTrans',     'CblasConjTrans', 'CblasConjTrans'  ),
     ('MagmaTrans',     'MagmaTrans',     'MagmaConjTrans', 'MagmaConjTrans'  ),
-    ('MorseTrans',     'MorseTrans',     'MorseConjTrans', 'MorseConjTrans'  ),
+    ('HicmaTrans',     'HicmaTrans',     'HicmaConjTrans', 'HicmaConjTrans'  ),
     ('PlasmaTrans',    'PlasmaTrans',    'PlasmaConjTrans','PlasmaConjTrans' ),
     ('symmetric',      'symmetric',      'Hermitian',      'Hermitian'       ),
 
@@ -716,7 +716,7 @@ subs = {
     ('splssq',         'dplssq',         'splssq',         'dplssq'          ),
     ('slacpy',         'dlacpy',         'slacpy',         'dlacpy'          ),
     ('saxpy',          'daxpy',          'saxpy',          'daxpy'           ),
-    ('MorseRealFloat', 'MorseRealDouble', 'MorseRealFloat', 'MorseRealDouble'),
+    ('HicmaRealFloat', 'HicmaRealDouble', 'HicmaRealFloat', 'HicmaRealDouble'),
 
     # QUARK codelets protection (to prevent conversion with LAPACK WITH PRECISION)
     ('DAG_CORE_U-NG2R', 'DAG_CORE_U-NG2R', 'DAG_CORE_UNG2R', 'DAG_CORE_UNG2R' ),

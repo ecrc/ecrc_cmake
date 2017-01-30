@@ -24,14 +24,14 @@ Installation
 ---------------------
 
 To use HICMA modules you have to add the path to the modules in your
-CMake project and include the MorseInit module:
+CMake project and include the HicmaInit module:
 
     # Define where are located module files on your system
     set(HICMA_CMAKE_MODULE_PATH "/where/is/hicma_cmake" CACHE PATH "Path to hicma_cmake sources")
     # Append this directory to the list of directories containing CMake modules
     list(APPEND CMAKE_MODULE_PATH "${HICMA_CMAKE_MODULE_PATH}/modules/" )
     # Include the init module
-    include(MorseInit)
+    include(HicmaInit)
     #
 
 We recommend to use this project as a `git submodule` of your project.

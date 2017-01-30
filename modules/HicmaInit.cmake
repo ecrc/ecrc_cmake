@@ -8,7 +8,7 @@
 #
 ###
 #
-#  @file MorseInit.cmake
+#  @file HicmaInit.cmake
 #
 #  @project HICMA
 #  HICMA is a software package provided by:
@@ -59,5 +59,5 @@ option(HICMA_ENABLE_COVERAGE      "Enable flags for coverage test" OFF)
 #        "   information about packages not found")
 
 ##
-## @end file MorseInit.cmake
+## @end file HicmaInit.cmake
 ##

@@ -31,7 +31,7 @@
 # See the License for more information.
 
 #=============================================================================
-# (To distribute this file outside of Morse, substitute the full
+# (To distribute this file outside of Hicma, substitute the full
 #  License text for the above reference.)
 
 
