@@ -227,7 +227,8 @@ subs = {
     # old python (2.4) requires this line to be list [] rather than tuple () to use index() function.
     ['s',              'd',              'c',              'z'               ],
 
-
+    #@KADIR
+    ('sgytlr',         'dgytlr',         'cgytlr',         'zgytlr'          ),
       # TODO clean; shouldn't be added this way
     ('cblas_sscal',   ' cblas_dscal',    'cblas_csscal',   'cblas_zdscal'),
     ('stsmqr_hetra1',  'dtsmqr_hetra1',  'ctsmqr_hetra1',  'ztsmqr_hetra1'),
