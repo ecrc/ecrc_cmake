@@ -453,6 +453,7 @@ subs = {
     ('sgecfi',         'dgecfi',         'cgecfi',         'zgecfi'          ),
     ('sgemdm',         'dgemdm',         'cgemdm',         'zgemdm'          ),
     ('sgemm',          'dgemm',          'cgemm',          'zgemm'           ),
+    ('sgemmf',         'dgemmf',         'cgemmf',         'zgemmf'           ),
     ('sgemv',          'dgemv',          'cgemv',          'zgemv'           ),
     ('sscal',          'dscal',          'cscal',          'zscal'           ),
     ('sscal',          'dscal',          'csscal',         'zdscal'          ),
