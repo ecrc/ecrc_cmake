@@ -10,11 +10,11 @@
 #
 #  @file Ressources.cmake
 #
-#  @project HICMA
-#  HICMA is a software package provided by:
+#  @project ECRC
+#  ECRC is a software package provided by:
 #     Inria Bordeaux - Sud-Ouest,
 #     Univ. of Tennessee,
-#     King Abdullah Univesity of Science and Technology
+#     King Abdullah University of Science and Technology
 #     Univ. of California Berkeley,
 #     Univ. of Colorado Denver.
 #

@@ -48,12 +48,12 @@ subs = {
     ('DOUBLE PRECISION',          'COMPLEX_16'                       ),
     ('SINGLE PRECISION',          'COMPLEX'                          ),
     ('real',                      'complex'                          ),
-    ('float',                     'HICMA_Complex32_t'                ),
-    ('double',                    'HICMA_Complex64_t'                ),
-    ('float',                     'HICMA_voidComplex32_t'            ),
-    ('double',                    'HICMA_voidComplex64_t'            ),
-    ('HicmaRealFloat',            'HicmaComplexFloat'                ),
-    ('HicmaRealDouble',           'HicmaComplexDouble'               ),
+    ('float',                     'ECRC_Complex32_t'                ),
+    ('double',                    'ECRC_Complex64_t'                ),
+    ('float',                     'ECRC_voidComplex32_t'            ),
+    ('double',                    'ECRC_voidComplex64_t'            ),
+    ('EcrcRealFloat',            'EcrcComplexFloat'                ),
+    ('EcrcRealDouble',           'EcrcComplexDouble'               ),
 
     # ----- CBLAS
     ('',                          'CBLAS_SADDR'                      ),
@@ -75,11 +75,11 @@ subs = {
     ('magma_get_d',               'magma_get_z'                      ),
     ('magma_get_s',               'magma_get_c'                      ),
 
-    # ----- Prefixes HICMA
-    ('HICMA_D',                   'HICMA_Z'                          ),
-    ('HICMA_S',                   'HICMA_C'                          ),
-    ('hicma_get_d',               'hicma_get_z'                      ),
-    ('hicma_get_s',               'hicma_get_c'                      ),
+    # ----- Prefixes ECRC
+    ('ECRC_D',                   'ECRC_Z'                          ),
+    ('ECRC_S',                   'ECRC_C'                          ),
+    ('ecrc_get_d',               'ecrc_get_z'                      ),
+    ('ecrc_get_s',               'ecrc_get_c'                      ),
     ('TASK_S',                    'TASK_C'                           ),
     ('TASK_D',                    'TASK_Z'                           ),
     ('RUNTIME_S',                 'RUNTIME_C'                        ),
@@ -99,13 +99,13 @@ subs = {
     # ----- PLASMA / MAGMA
     ('magma_sdgetrs',             'magma_czgetrs'                    ),
 
-    # ----- HICMA
-    ('hicma_sdgetrs',             'hicma_czgetrs'                    ),
+    # ----- ECRC
+    ('ecrc_sdgetrs',             'ecrc_czgetrs'                    ),
 
     # ----- Constants
     ('CblasTrans',                'CblasConjTrans'                   ),
     ('MagmaTrans',                'MagmaConjTrans'                   ),
-    ('HicmaTrans',                'HicmaConjTrans'                   ),
+    ('EcrcTrans',                'EcrcConjTrans'                   ),
 
     # ----- BLAS and LAPACK, lowercase, alphabetic order
     # copy & paste these to uppercase below and fix case.
@@ -261,9 +261,9 @@ subs = {
     ('float',                'double',                'PLASMA_Complex32_t',              r'\bPLASMA_Complex64_t'               ),
     ('float',                'double',                'PLASMA_voidComplex32_t',          r'\bPLASMA_voidComplex64_t'           ),
     ('PlasmaRealFloat',      'PlasmaRealDouble',      'PlasmaComplexFloat',              r'\bPlasmaComplexDouble'              ),
-    ('float',                'double',                'HICMA_Complex32_t',               r'\bHICMA_Complex64_t'                ),
-    ('float',                'double',                'HICMA_voidComplex32_t',           r'\bHICMA_voidComplex64_t'            ),
-    ('HicmaRealFloat',       'HicmaRealDouble',       'HicmaComplexFloat',               r'\bHicmaComplexDouble'               ),
+    ('float',                'double',                'ECRC_Complex32_t',               r'\bECRC_Complex64_t'                ),
+    ('float',                'double',                'ECRC_voidComplex32_t',           r'\bECRC_voidComplex64_t'            ),
+    ('EcrcRealFloat',       'EcrcRealDouble',       'EcrcComplexFloat',               r'\bEcrcComplexDouble'               ),
     ('real',                 'double precision',      'complex',                         r'\bcomplex\*16'                      ),
     ('REAL',                 'DOUBLE_PRECISION',      'COMPLEX',                         r'\bCOMPLEX_16'                       ),
     ('REAL',                 'DOUBLE PRECISION',      'COMPLEX',                         r'\bDOUBLE COMPLEX'                   ),
@@ -365,14 +365,14 @@ subs = {
     ('sequential_s',   'sequential_d',   'sequential_c',   'sequential_z'    ),
     ('coeftab_s',      'coeftab_d',      'coeftab_c',      'coeftab_z'       ),
 
-    # ----- Prefixes HICMA
-    ('HICMA_S',        'HICMA_D',        'HICMA_C',        'HICMA_Z'         ),
-    ('HICMA_sor',      'HICMA_dor',      'HICMA_cun',      'HICMA_zun'       ),
-    ('HICMA_s',        'HICMA_d',        'HICMA_c',        'HICMA_z'         ),
-    ('hicma_get_s',    'hicma_get_d',    'hicma_get_c',    'hicma_get_z'     ),
-    ('hicma_ps',       'hicma_pd',       'hicma_pc',       'hicma_pz'        ),
-    ('hicma_s',        'hicma_d',        'hicma_c',        'hicma_z'         ),
-    ('hicma_sdesc',    'hicma_ddesc',    'hicma_sdesc',    'hicma_ddesc'     ),
+    # ----- Prefixes ECRC
+    ('ECRC_S',        'ECRC_D',        'ECRC_C',        'ECRC_Z'         ),
+    ('ECRC_sor',      'ECRC_dor',      'ECRC_cun',      'ECRC_zun'       ),
+    ('ECRC_s',        'ECRC_d',        'ECRC_c',        'ECRC_z'         ),
+    ('ecrc_get_s',    'ecrc_get_d',    'ecrc_get_c',    'ecrc_get_z'     ),
+    ('ecrc_ps',       'ecrc_pd',       'ecrc_pc',       'ecrc_pz'        ),
+    ('ecrc_s',        'ecrc_d',        'ecrc_c',        'ecrc_z'         ),
+    ('ecrc_sdesc',    'ecrc_ddesc',    'ecrc_sdesc',    'ecrc_ddesc'     ),
     ('TASK_sasum',     'TASK_dasum',     'TASK_scasum',    'TASK_dzasum'     ),
     ('TASK_ssyrfb',    'TASK_dsyrfb',    'TASK_cherfb',    'TASK_zherfb'     ),
     ('TASK_stsmlq_sy', 'TASK_dtsmlq_sy', 'TASK_ctsmlq_he', 'TASK_ztsmlq_he'  ),
@@ -403,10 +403,10 @@ subs = {
     ('cublasIsamax',   'cublasIdamax',   'cublasIsamax',   'cublasIdamax'    ),
     ('cublasSnrm2',    'cublasDnrm2',    'cublasScnrm2',   'cublasDznrm2'    ),
 
-    # ----- PLASMA / MAGMA / HICMA
+    # ----- PLASMA / MAGMA / ECRC
     ('bsy2trc',        'bsy2trc',        'bhe2trc',        'bhe2trc'         ),
     ('magma_ssqrt',    'magma_dsqrt',    'magma_ssqrt',    'magma_dsqrt'     ),
-    ('hicma_ssqrt',    'hicma_dsqrt',    'hicma_ssqrt',    'hicma_dsqrt'     ),
+    ('ecrc_ssqrt',    'ecrc_dsqrt',    'ecrc_ssqrt',    'ecrc_dsqrt'     ),
     ('SAUXILIARY',     'DAUXILIARY',     'CAUXILIARY',     'ZAUXILIARY'      ),
     ('sauxiliary',     'dauxiliary',     'cauxiliary',     'zauxiliary'      ),
     ('sbcyclic',       'dbcyclic',       'cbcyclic',       'zbcyclic'        ),
@@ -438,7 +438,7 @@ subs = {
     # ----- Constants
     ('CblasTrans',     'CblasTrans',     'CblasConjTrans', 'CblasConjTrans'  ),
     ('MagmaTrans',     'MagmaTrans',     'MagmaConjTrans', 'MagmaConjTrans'  ),
-    ('HicmaTrans',     'HicmaTrans',     'HicmaConjTrans', 'HicmaConjTrans'  ),
+    ('EcrcTrans',     'EcrcTrans',     'EcrcConjTrans', 'EcrcConjTrans'  ),
     ('PlasmaTrans',    'PlasmaTrans',    'PlasmaConjTrans','PlasmaConjTrans' ),
     ('symmetric',      'symmetric',      'Hermitian',      'Hermitian'       ),
 
@@ -471,7 +471,7 @@ subs = {
     ('strsm',          'dtrsm',          'ctrsm',          'ztrsm'           ),
     ('strsv',          'dtrsv',          'ctrsv',          'ztrsv'           ),
 
-# ADD FOR NEW VERSION OF HICMA
+# ADD FOR NEW VERSION OF ECRC
     ('shbcpy',         'dhbcpy',         'chbcpy',         'zhbcpy'          ),
     ('ssyrbt',         'dsyrbt',         'cherbt',         'zherbt'          ),
     ('ssygv',          'dsygv',          'chegv',          'zhegv'           ),
@@ -718,7 +718,7 @@ subs = {
     ('splssq',         'dplssq',         'splssq',         'dplssq'          ),
     ('slacpy',         'dlacpy',         'slacpy',         'dlacpy'          ),
     ('saxpy',          'daxpy',          'saxpy',          'daxpy'           ),
-    ('HicmaRealFloat', 'HicmaRealDouble', 'HicmaRealFloat', 'HicmaRealDouble'),
+    ('EcrcRealFloat', 'EcrcRealDouble', 'EcrcRealFloat', 'EcrcRealDouble'),
 
     # QUARK codelets protection (to prevent conversion with LAPACK WITH PRECISION)
     ('DAG_CORE_U-NG2R', 'DAG_CORE_U-NG2R', 'DAG_CORE_UNG2R', 'DAG_CORE_UNG2R' ),

@@ -8,13 +8,13 @@
 #
 ###
 #
-#  @file HicmaInit.cmake
+#  @file EcrcInit.cmake
 #
-#  @project HICMA
-#  HICMA is a software package provided by:
+#  @project ECRC
+#  ECRC is a software package provided by:
 #     Inria Bordeaux - Sud-Ouest,
 #     Univ. of Tennessee,
-#     King Abdullah Univesity of Science and Technology
+#     King Abdullah University of Science and Technology
 #     Univ. of California Berkeley,
 #     Univ. of Colorado Denver.
 #
@@ -40,7 +40,7 @@ include(CheckIncludeFiles)
 include(FindHeadersAndLibs)
 
 # Some macros to print status when search for headers and libs
-# PrintFindStatus.cmake is in cmake_modules/hicma/find directory
+# PrintFindStatus.cmake is in cmake_modules/ecrc/find directory
 include(PrintFindStatus)
 
 # Define some auxilary flags
@@ -50,14 +50,14 @@ include(AuxilaryFlags)
 include(Ressources)
 
 # Add the path where we handle our FindFOO.cmake to seek for liraries
-list(APPEND CMAKE_MODULE_PATH ${HICMA_CMAKE_MODULE_PATH}/find)
+list(APPEND CMAKE_MODULE_PATH ${ECRC_CMAKE_MODULE_PATH}/find)
 
-option(HICMA_ENABLE_WARNING       "Enable warning messages" OFF)
-option(HICMA_ENABLE_COVERAGE      "Enable flags for coverage test" OFF)
-#option(HICMA_VERBOSE_FIND_PACKAGE "Add additional messages concerning packages not found" OFF)
-#message(STATUS "HICMA_VERBOSE_FIND_PACKAGE is set to OFF, turn it ON to get"
+option(ECRC_ENABLE_WARNING       "Enable warning messages" OFF)
+option(ECRC_ENABLE_COVERAGE      "Enable flags for coverage test" OFF)
+#option(ECRC_VERBOSE_FIND_PACKAGE "Add additional messages concerning packages not found" OFF)
+#message(STATUS "ECRC_VERBOSE_FIND_PACKAGE is set to OFF, turn it ON to get"
 #        "   information about packages not found")
 
 ##
-## @end file HicmaInit.cmake
+## @end file EcrcInit.cmake
 ##

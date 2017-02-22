@@ -58,13 +58,13 @@
 # Copyright 2013      Florent Pruvost
 #
 # Distributed under the OSI-approved BSD License (the "License");
-# see accompanying file HICMA-Copyright.txt for details.
+# see accompanying file ECRC-Copyright.txt for details.
 #
 # This software is distributed WITHOUT ANY WARRANTY; without even the
 # implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 # See the License for more information.
 #=============================================================================
-# (To distribute this file outside of Hicma, substitute the full
+# (To distribute this file outside of Ecrc, substitute the full
 #  License text for the above reference.)
 
 if (NOT STARPU_FOUND)
