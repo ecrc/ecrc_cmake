@@ -7,13 +7,13 @@ https://gitlab.inria.fr/solverstack/hicma_cmake/forks/new
 Then, clone the repository on your laptop:
 ```
 #!shell
-git clone git@gitlab.inria.fr:username/forkname.git
+git clone https://github.com/ecrc/ecrc_cmake.git
 ```
 
 Once this is done, you can setup the hicma_cmake repository as the upstream of your clone to simplify the update of your fork repository.
 ```
 #!shell
-git remote add upstream git@bitbucket.org:solverstack/hicma_cmake.git
+git remote add upstream https://github.com/ecrc/ecrc_cmake.git
 ```
 
 Now, you have your repository configured, and you want to create a new pull request. The first step is to create a branch from the HEAD of the your fork repository.
@@ -33,7 +33,7 @@ or without -f, if the branch already exists online, and you just want to update 
 
 Once your branch is online, on the gitlab interface, go to the branches webpage, select the branch you want to push as a merge request, and push the button !!!
 
-***Be careful to check the 'close after merge' check box, and to push to the solverstack/hicma_cmake repository*** By default the checkbox is not checked, and the default repository is your fork.
+***Be careful to check the 'close after merge' check box, and to push to the ecrc/ecrc_cmake repository*** By default the checkbox is not checked, and the default repository is your fork.
 
 
 # To review locally a private pull request submitted by someone else
