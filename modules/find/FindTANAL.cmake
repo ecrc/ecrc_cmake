@@ -59,7 +59,7 @@
 # Copyright 2013-2016 Florent Pruvost
 #
 # Distributed under the OSI-approved BSD License (the "License");
-# see accompanying file ALTANAL-Copyright.txt for details.
+# see accompanying file ECRC-Copyright.txt for details.
 #
 # This software is distributed WITHOUT ANY WARRANTY; without even the
 # implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
@@ -801,11 +801,15 @@ endif( (NOT PKG_CONFIG_EXECUTABLE) OR (PKG_CONFIG_EXECUTABLE AND NOT TANAL_FOUND
 
 if (TANAL_LIBRARIES)
   if (TANAL_LIBRARY_DIRS)
+    set( first_lib_path "" )
     foreach(dir ${TANAL_LIBRARY_DIRS})
       if ("${dir}" MATCHES "tanal")
-	set(first_lib_path "${dir}")
+        set(first_lib_path "${dir}")
       endif()
     endforeach()
+    if( NOT first_lib_path )
+      list(GET TANAL_LIBRARY_DIRS 0 first_lib_path)
+    endif()
   else()
     list(GET TANAL_LIBRARIES 0 first_lib)
     get_filename_component(first_lib_path "${first_lib}" PATH)
