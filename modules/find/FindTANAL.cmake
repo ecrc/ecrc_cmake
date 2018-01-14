@@ -407,6 +407,16 @@ if( (NOT PKG_CONFIG_EXECUTABLE) OR (PKG_CONFIG_EXECUTABLE AND NOT TANAL_FOUND) O
 
     endif()
 
+
+    if( NOT OPENMP_FOUND AND TANAL_LOOK_FOR_OPENMP )
+        # try to find OpenMP
+        if (TANAL_FIND_REQUIRED AND TANAL_FIND_REQUIRED_OPENMP)
+            find_package(OpenMP REQUIRED)
+        else()
+            find_package(OpenMP)
+        endif()
+    endif()
+
     # Looking for include
     # -------------------
 
@@ -621,6 +631,24 @@ if( (NOT PKG_CONFIG_EXECUTABLE) OR (PKG_CONFIG_EXECUTABLE AND NOT TANAL_FOUND) O
                 list(APPEND REQUIRED_LIBS "${QUARK_LIBRARIES_DEP}")
             elseif (QUARK_LIBRARY_DIRS_DEP)
                 list(APPEND REQUIRED_LIBS "${QUARK_LIBRARIES}")
+            endif()
+        endif()
+        # OpenMP
+        if (OPENMP_FOUND AND TANAL_LOOK_FOR_OPENMP)
+            if (OPENMP_INCLUDE_DIRS_DEP)
+                list(APPEND REQUIRED_INCDIRS "${OPENMP_INCLUDE_DIRS_DEP}")
+            elseif(OPENMP_INCLUDE_DIRS)
+                list(APPEND REQUIRED_INCDIRS "${OPENMP_INCLUDE_DIRS}")
+            endif()
+            if(OPENMP_LIBRARY_DIRS_DEP)
+                list(APPEND REQUIRED_LIBDIRS "${OPENMP_LIBRARY_DIRS_DEP}")
+            elseif(OPENMP_LIBRARY_DIRS)
+                list(APPEND REQUIRED_LIBDIRS "${OPENMP_LIBRARY_DIRS}")
+            endif()
+            if (OPENMP_LIBRARY_DIRS_DEP)
+                list(APPEND REQUIRED_LIBS "${OPENMP_LIBRARIES_DEP}")
+            elseif (OPENMP_LIBRARY_DIRS_DEP)
+                list(APPEND REQUIRED_LIBS "${OPENMP_LIBRARIES}")
             endif()
         endif()
         # CUDA
