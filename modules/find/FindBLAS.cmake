@@ -135,6 +135,82 @@ macro(Print_Find_Library_Blas_CheckFunc_Status _name)
 
 endmacro()
 
+macro(Find_Blas_Header _header_name _extra_paths)
+    # Looking for include
+    # -------------------
+
+    # Add system include paths to search include
+    # ------------------------------------------
+    unset(_inc_env)
+    set(ENV_BLAS_DIR "$ENV{BLAS_DIR}")
+    set(ENV_BLAS_INCDIR "$ENV{BLAS_INCDIR}")
+    if(ENV_BLAS_INCDIR)
+      list(APPEND _inc_env "${ENV_BLAS_INCDIR}")
+    elseif(ENV_BLAS_DIR)
+      list(APPEND _inc_env "${ENV_BLAS_DIR}")
+      list(APPEND _inc_env "${ENV_BLAS_DIR}/include")
+    else()
+      if (_extra_paths)
+        list(APPEND _inc_env "${_extra_paths}")
+        list(APPEND _inc_env "${_extra_paths}/include")
+      endif()
+      # system variables
+      if(WIN32)
+        string(REPLACE ":" ";" _path_env "$ENV{INCLUDE}")
+        list(APPEND _inc_env "${_path_env}")
+      else()
+        string(REPLACE ":" ";" _path_env "$ENV{INCLUDE}")
+        list(APPEND _inc_env "${_path_env}")
+        string(REPLACE ":" ";" _path_env "$ENV{C_INCLUDE_PATH}")
+        list(APPEND _inc_env "${_path_env}")
+        string(REPLACE ":" ";" _path_env "$ENV{CPATH}")
+        list(APPEND _inc_env "${_path_env}")
+        string(REPLACE ":" ";" _path_env "$ENV{INCLUDE_PATH}")
+        list(APPEND _inc_env "${_path_env}")
+      endif()
+    endif()
+    list(APPEND _inc_env "${CMAKE_PLATFORM_IMPLICIT_INCLUDE_DIRECTORIES}")
+    list(APPEND _inc_env "${CMAKE_C_IMPLICIT_INCLUDE_DIRECTORIES}")
+    list(REMOVE_DUPLICATES _inc_env)
+
+    # set paths where to look for
+    set(PATH_TO_LOOK_FOR "${_inc_env}")
+    # Try to find the fftw header in the given paths
+    # -------------------------------------------------
+    # call cmake macro to find the header path
+    if(BLAS_INCDIR)
+      set(BLAS_${_header_name}_DIRS "BLAS_${_header_name}_DIRS-NOTFOUND")
+      find_path(BLAS_${_header_name}_DIRS
+        NAMES ${_header_name}
+        HINTS ${BLAS_INCDIR})
+    else()
+      if(BLAS_DIR)
+        set(BLAS_${_header_name}_DIRS "BLAS_${_header_name}_DIRS-NOTFOUND")
+        find_path(BLAS_${_header_name}_DIRS
+          NAMES ${_header_name}
+          HINTS ${BLAS_DIR}
+          PATH_SUFFIXES "include")
+      else()
+        set(BLAS_${_header_name}_DIRS "BLAS_${_header_name}_DIRS-NOTFOUND")
+        find_path(BLAS_${_header_name}_DIRS
+          NAMES ${_header_name}
+          HINTS ${PATH_TO_LOOK_FOR})
+      endif()
+    endif()
+    mark_as_advanced(BLAS_${_header_name}_DIRS)
+
+    # If found, add path to cmake variable
+    # ------------------------------------
+    if (BLAS_${_header_name}_DIRS)
+      set(BLAS_INCLUDE_DIRS "${BLAS_${_header_name}_DIRS}")
+    else ()
+      set(BLAS_INCLUDE_DIRS "BLAS_INCLUDE_DIRS-NOTFOUND")
+      if(NOT BLAS_FIND_QUIETLY)
+        message(STATUS "Looking for BLAS -- ${_header_name} not found")
+      endif()
+    endif()
+endmacro()
+
 if (NOT BLAS_FOUND)
   set(BLAS_DIR "" CACHE PATH "Installation directory of BLAS library")
   if (NOT BLAS_FIND_QUIETLY)
@@ -333,79 +409,9 @@ if (BLA_VENDOR MATCHES "Intel*" OR BLA_VENDOR STREQUAL "All")
 
   if(NOT BLAS_LIBRARIES OR BLA_VENDOR MATCHES "Intel*")
     # Looking for include
-    # -------------------
-
-    # Add system include paths to search include
-    # ------------------------------------------
-    unset(_inc_env)
-    set(ENV_MKLROOT "$ENV{MKLROOT}")
-    set(ENV_BLAS_DIR "$ENV{BLAS_DIR}")
-    set(ENV_BLAS_INCDIR "$ENV{BLAS_INCDIR}")
-    if(ENV_BLAS_INCDIR)
-      list(APPEND _inc_env "${ENV_BLAS_INCDIR}")
-    elseif(ENV_BLAS_DIR)
-      list(APPEND _inc_env "${ENV_BLAS_DIR}")
-      list(APPEND _inc_env "${ENV_BLAS_DIR}/include")
-    else()
-      if (ENV_MKLROOT)
-        list(APPEND _inc_env "${ENV_MKLROOT}/include")
-      endif()
-      # system variables
-      if(WIN32)
-        string(REPLACE ":" ";" _path_env "$ENV{INCLUDE}")
-        list(APPEND _inc_env "${_path_env}")
-      else()
-        string(REPLACE ":" ";" _path_env "$ENV{INCLUDE}")
-        list(APPEND _inc_env "${_path_env}")
-        string(REPLACE ":" ";" _path_env "$ENV{C_INCLUDE_PATH}")
-        list(APPEND _inc_env "${_path_env}")
-        string(REPLACE ":" ";" _path_env "$ENV{CPATH}")
-        list(APPEND _inc_env "${_path_env}")
-        string(REPLACE ":" ";" _path_env "$ENV{INCLUDE_PATH}")
-        list(APPEND _inc_env "${_path_env}")
-      endif()
-    endif()
-    list(APPEND _inc_env "${CMAKE_PLATFORM_IMPLICIT_INCLUDE_DIRECTORIES}")
-    list(APPEND _inc_env "${CMAKE_C_IMPLICIT_INCLUDE_DIRECTORIES}")
-    list(REMOVE_DUPLICATES _inc_env)
-
-    # set paths where to look for
-    set(PATH_TO_LOOK_FOR "${_inc_env}")
-
-    # Try to find the fftw header in the given paths
     # -------------------------------------------------
     # call cmake macro to find the header path
-    if(BLAS_INCDIR)
-      set(BLAS_mkl.h_DIRS "BLAS_mkl.h_DIRS-NOTFOUND")
-      find_path(BLAS_mkl.h_DIRS
-        NAMES mkl.h
-        HINTS ${BLAS_INCDIR})
-    else()
-      if(BLAS_DIR)
-        set(BLAS_mkl.h_DIRS "BLAS_mkl.h_DIRS-NOTFOUND")
-        find_path(BLAS_mkl.h_DIRS
-          NAMES mkl.h
-          HINTS ${BLAS_DIR}
-          PATH_SUFFIXES "include")
-      else()
-        set(BLAS_mkl.h_DIRS "BLAS_mkl.h_DIRS-NOTFOUND")
-        find_path(BLAS_mkl.h_DIRS
-          NAMES mkl.h
-          HINTS ${PATH_TO_LOOK_FOR})
-      endif()
-    endif()
-    mark_as_advanced(BLAS_mkl.h_DIRS)
-
-    # If found, add path to cmake variable
-    # ------------------------------------
-    if (BLAS_mkl.h_DIRS)
-      set(BLAS_INCLUDE_DIRS "${BLAS_mkl.h_DIRS}")
-    else ()
-      set(BLAS_INCLUDE_DIRS "BLAS_INCLUDE_DIRS-NOTFOUND")
-      if(NOT BLAS_FIND_QUIETLY)
-        message(STATUS "Looking for BLAS -- mkl.h not found")
-      endif()
-    endif()
+    Find_Blas_Header( "mkl.h" ${ENV_MKLROOT}/include )
 
     if (WIN32)
       string(REPLACE ":" ";" _libdir "$ENV{LIB}")
@@ -752,6 +758,7 @@ if (BLA_VENDOR STREQUAL "Open" OR BLA_VENDOR STREQUAL "All")
     endif()
   endif()
   if (BLAS_LIBRARIES AND NOT BLAS_VENDOR_FOUND)
+      Find_Blas_Header( "openblas_config.h" . )
       set (BLAS_VENDOR_FOUND "Openblas")
   endif()
 
@@ -799,6 +806,7 @@ if (BLA_VENDOR STREQUAL "Eigen" OR BLA_VENDOR STREQUAL "All")
     endif()
   endif()
   if (BLAS_LIBRARIES AND NOT BLAS_VENDOR_FOUND)
+      # TODO Find_Blas_Header( "blas.h" "" )
       set (BLAS_VENDOR_FOUND "Eigen")
   endif()
 
@@ -827,6 +835,7 @@ if (BLA_VENDOR STREQUAL "ATLAS" OR BLA_VENDOR STREQUAL "All")
   endif()
 
   if (BLAS_LIBRARIES AND NOT BLAS_VENDOR_FOUND)
+      # TODO Find_Blas_Header( "blas.h" "" )
       set (BLAS_VENDOR_FOUND "Atlas")
   endif()
 
@@ -855,6 +864,7 @@ if (BLA_VENDOR STREQUAL "PhiPACK" OR BLA_VENDOR STREQUAL "All")
   endif()
 
   if (BLAS_LIBRARIES AND NOT BLAS_VENDOR_FOUND)
+      # TODO Find_Blas_Header( "blas.h" "" )
       set (BLAS_VENDOR_FOUND "PhiPACK")
   endif()
 
@@ -883,6 +893,7 @@ if (BLA_VENDOR STREQUAL "CXML" OR BLA_VENDOR STREQUAL "All")
   endif()
 
   if (BLAS_LIBRARIES AND NOT BLAS_VENDOR_FOUND)
+      # TODO Find_Blas_Header( "blas.h" "" )
       set (BLAS_VENDOR_FOUND "CXML")
   endif()
 
@@ -911,6 +922,7 @@ if (BLA_VENDOR STREQUAL "DXML" OR BLA_VENDOR STREQUAL "All")
   endif()
 
   if (BLAS_LIBRARIES AND NOT BLAS_VENDOR_FOUND)
+      # TODO Find_Blas_Header( "blas.h" "" )
       set (BLAS_VENDOR_FOUND "DXML")
   endif()
   
@@ -942,6 +954,7 @@ if (BLA_VENDOR STREQUAL "SunPerf" OR BLA_VENDOR STREQUAL "All")
   endif()
 
   if (BLAS_LIBRARIES AND NOT BLAS_VENDOR_FOUND)
+      # TODO Find_Blas_Header( "blas.h" "" )
       set (BLAS_VENDOR_FOUND "SunPerf")
   endif()
 
@@ -969,6 +982,7 @@ if (BLA_VENDOR STREQUAL "SCSL" OR BLA_VENDOR STREQUAL "All")
   endif()
 
   if (BLAS_LIBRARIES AND NOT BLAS_VENDOR_FOUND)
+      # TODO Find_Blas_Header( "blas.h" "" )
       set (BLAS_VENDOR_FOUND "SCSL")
   endif()
 
@@ -1002,6 +1016,7 @@ if (BLA_VENDOR STREQUAL "SCI" OR BLA_VENDOR STREQUAL "All")
   endif()
 
   if (BLAS_LIBRARIES AND NOT BLAS_VENDOR_FOUND)
+      # TODO Find_Blas_Header( "blas.h" "" )
       set (BLAS_VENDOR_FOUND "SCI")
   endif()
 
@@ -1030,6 +1045,7 @@ if (BLA_VENDOR STREQUAL "SGIMATH" OR BLA_VENDOR STREQUAL "All")
   endif()
 
   if (BLAS_LIBRARIES AND NOT BLAS_VENDOR_FOUND)
+      # TODO Find_Blas_Header( "blas.h" "" )
       set (BLAS_VENDOR_FOUND "SGIMATH")
   endif()
 
@@ -1058,6 +1074,7 @@ if (BLA_VENDOR STREQUAL "IBMESSL" OR BLA_VENDOR STREQUAL "All")
   endif()
 
   if (BLAS_LIBRARIES AND NOT BLAS_VENDOR_FOUND)
+      # TODO Find_Blas_Header( "blas.h" "" )
       set (BLAS_VENDOR_FOUND "IBM ESSL")
   endif()
 
@@ -1085,6 +1102,7 @@ if (BLA_VENDOR STREQUAL "IBMESSLMT" OR BLA_VENDOR STREQUAL "All")
   endif()
 
   if (BLAS_LIBRARIES AND NOT BLAS_VENDOR_FOUND)
+      # TODO Find_Blas_Header( "blas.h" "" )
       set (BLAS_VENDOR_FOUND "IBM ESSL MT")
   endif()
 
@@ -1258,6 +1276,7 @@ if (BLA_VENDOR MATCHES "ACML.*" OR BLA_VENDOR STREQUAL "All")
   endif()
 
   if (BLAS_LIBRARIES AND NOT BLAS_VENDOR_FOUND)
+      # TODO Find_Blas_Header( "blas.h" "" )
       set (BLAS_VENDOR_FOUND "ACML")
   endif()
 
@@ -1286,6 +1305,7 @@ if (BLA_VENDOR STREQUAL "Apple" OR BLA_VENDOR STREQUAL "All")
   endif()
 
   if (BLAS_LIBRARIES AND NOT BLAS_VENDOR_FOUND)
+      # TODO Find_Blas_Header( "blas.h" "" )
       set (BLAS_VENDOR_FOUND "Apple Accelerate")
   endif()
 
@@ -1313,6 +1333,7 @@ if (BLA_VENDOR STREQUAL "NAS" OR BLA_VENDOR STREQUAL "All")
   endif ()
 
   if (BLAS_LIBRARIES AND NOT BLAS_VENDOR_FOUND)
+      # TODO Find_Blas_Header( "blas.h" "" )
       set (BLAS_VENDOR_FOUND "NAS")
   endif()
 
@@ -1345,6 +1366,7 @@ if (BLA_VENDOR STREQUAL "Generic" OR BLA_VENDOR STREQUAL "All")
   endforeach ()
 
   if (BLAS_LIBRARIES AND NOT BLAS_VENDOR_FOUND)
+      # TODO Find_Blas_Header( "blas.h" "" )
       set (BLAS_VENDOR_FOUND "Netlib or other Generic libblas")
   endif()
 
