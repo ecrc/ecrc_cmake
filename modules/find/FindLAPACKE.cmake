@@ -157,6 +157,8 @@ endif()
 
 # LAPACKE depends on LAPACK
 if (LAPACK_FOUND)
+    # find header
+    Find_Lapacke_Header( "lapacke.h" "${LAPACK_INCLUDE_DIRS}" )
 
   if (NOT LAPACKE_STANDALONE)
     # check if a lapacke function exists in the LAPACK lib
@@ -194,75 +196,6 @@ if (LAPACK_FOUND)
 
     # Try to find LAPACKE lib
     #######################
-
-    # Looking for include
-    # -------------------
-
-    # Add system include paths to search include
-    # ------------------------------------------
-    unset(_inc_env)
-    set(ENV_LAPACKE_DIR "$ENV{LAPACKE_DIR}")
-    set(ENV_LAPACKE_INCDIR "$ENV{LAPACKE_INCDIR}")
-    if(ENV_LAPACKE_INCDIR)
-      list(APPEND _inc_env "${ENV_LAPACKE_INCDIR}")
-    elseif(ENV_LAPACKE_DIR)
-      list(APPEND _inc_env "${ENV_LAPACKE_DIR}")
-      list(APPEND _inc_env "${ENV_LAPACKE_DIR}/include")
-      list(APPEND _inc_env "${ENV_LAPACKE_DIR}/include/lapacke")
-    else()
-      if(WIN32)
-	string(REPLACE ":" ";" _inc_env "$ENV{INCLUDE}")
-      else()
-	string(REPLACE ":" ";" _path_env "$ENV{INCLUDE}")
-	list(APPEND _inc_env "${_path_env}")
-	string(REPLACE ":" ";" _path_env "$ENV{C_INCLUDE_PATH}")
-	list(APPEND _inc_env "${_path_env}")
-	string(REPLACE ":" ";" _path_env "$ENV{CPATH}")
-	list(APPEND _inc_env "${_path_env}")
-	string(REPLACE ":" ";" _path_env "$ENV{INCLUDE_PATH}")
-	list(APPEND _inc_env "${_path_env}")
-      endif()
-    endif()
-    list(APPEND _inc_env "${CMAKE_PLATFORM_IMPLICIT_INCLUDE_DIRECTORIES}")
-    list(APPEND _inc_env "${CMAKE_C_IMPLICIT_INCLUDE_DIRECTORIES}")
-    list(REMOVE_DUPLICATES _inc_env)
-
-
-    # Try to find the lapacke header in the given paths
-    # -------------------------------------------------
-    # call cmake macro to find the header path
-    if(LAPACKE_INCDIR)
-      set(LAPACKE_lapacke.h_DIRS "LAPACKE_lapacke.h_DIRS-NOTFOUND")
-      find_path(LAPACKE_lapacke.h_DIRS
-	NAMES lapacke.h
-	HINTS ${LAPACKE_INCDIR})
-    else()
-      if(LAPACKE_DIR)
-	set(LAPACKE_lapacke.h_DIRS "LAPACKE_lapacke.h_DIRS-NOTFOUND")
-	find_path(LAPACKE_lapacke.h_DIRS
-	  NAMES lapacke.h
-	  HINTS ${LAPACKE_DIR}
-	  PATH_SUFFIXES "include" "include/lapacke")
-      else()
-	set(LAPACKE_lapacke.h_DIRS "LAPACKE_lapacke.h_DIRS-NOTFOUND")
-	find_path(LAPACKE_lapacke.h_DIRS
-	  NAMES lapacke.h
-	  HINTS ${_inc_env})
-      endif()
-    endif()
-    mark_as_advanced(LAPACKE_lapacke.h_DIRS)
-
-    # If found, add path to cmake variable
-    # ------------------------------------
-    if (LAPACKE_lapacke.h_DIRS)
-      set(LAPACKE_INCLUDE_DIRS "${LAPACKE_lapacke.h_DIRS}")
-    else ()
-      set(LAPACKE_INCLUDE_DIRS "LAPACKE_INCLUDE_DIRS-NOTFOUND")
-      if(NOT LAPACKE_FIND_QUIETLY)
-	message(STATUS "Looking for lapacke -- lapacke.h not found")
-      endif()
-    endif()
-
 
     # Looking for lib
     # ---------------
