@@ -61,6 +61,84 @@
 # (To distribute this file outside of Ecrc, substitute the full
 #  License text for the above reference.)
 
+macro(Find_Lapacke_Header _header_name _extra_paths)
+    # Looking for include
+    # -------------------
+
+    # Add system include paths to search include
+    # ------------------------------------------
+    unset(_inc_env)
+    set(ENV_LAPACKE_DIR "$ENV{LAPACKE_DIR}")
+    set(ENV_LAPACKE_INCDIR "$ENV{LAPACKE_INCDIR}")
+    if(ENV_LAPACKE_INCDIR)
+      list(APPEND _inc_env "${ENV_LAPACKE_INCDIR}")
+    elseif(ENV_LAPACKE_DIR)
+      list(APPEND _inc_env "${ENV_LAPACKE_DIR}")
+      list(APPEND _inc_env "${ENV_LAPACKE_DIR}/include")
+      list(APPEND _inc_env "${ENV_LAPACKE_DIR}/include/lapacke")
+    else()
+      # system variables
+      if(WIN32)
+        string(REPLACE ":" ";" _inc_env "$ENV{INCLUDE}")
+      else()
+        string(REPLACE ":" ";" _path_env "$ENV{INCLUDE}")
+        list(APPEND _inc_env "${_path_env}")
+        string(REPLACE ":" ";" _path_env "$ENV{C_INCLUDE_PATH}")
+        list(APPEND _inc_env "${_path_env}")
+        string(REPLACE ":" ";" _path_env "$ENV{CPATH}")
+        list(APPEND _inc_env "${_path_env}")
+        string(REPLACE ":" ";" _path_env "$ENV{INCLUDE_PATH}")
+        list(APPEND _inc_env "${_path_env}")
+      endif()
+    endif()
+    list(APPEND _inc_env "${CMAKE_PLATFORM_IMPLICIT_INCLUDE_DIRECTORIES}")
+    list(APPEND _inc_env "${CMAKE_C_IMPLICIT_INCLUDE_DIRECTORIES}")
+    if (_extra_paths)
+      list(APPEND _inc_env "${_extra_paths}")
+      list(APPEND _inc_env "${_extra_paths}/include")
+    endif()
+    list(REMOVE_DUPLICATES _inc_env)
+
+    # set paths where to look for
+    set(PATH_TO_LOOK_FOR "${_inc_env}")
+    # Try to find the lapacke header in the given paths
+    # -------------------------------------------------
+    # call cmake macro to find the header path
+    if(LAPACKE_INCDIR)
+      set(LAPACKE_${_header_name}_DIRS "LAPACKE_${_header_name}_DIRS-NOTFOUND")
+      find_path(LAPACKE_${_header_name}_DIRS
+                NAMES ${_header_name}
+                HINTS ${LAPACKE_INCDIR})
+    else()
+      if(LAPACKE_DIR)
+        set(LAPACKE_${_header_name}_DIRS "LAPACKE_${_header_name}_DIRS-NOTFOUND")
+        find_path(LAPACKE_${_header_name}_DIRS
+                    NAMES ${_header_name}
+                    HINTS ${LAPACKE_DIR}
+                    PATH_SUFFIXES "include" "include/lapacke")
+      else()
+        set(LAPACKE_${_header_name}_DIRS "LAPACKE_${_header_name}_DIRS-NOTFOUND")
+        find_path(LAPACKE_${_header_name}_DIRS
+                    NAMES ${_header_name}
+                    HINTS ${PATH_TO_LOOK_FOR})
+      endif()
+    endif()
+    mark_as_advanced(LAPACKE_${_header_name}_DIRS)
+
+    # If found, add path to cmake variable
+    # ------------------------------------
+    if (LAPACKE_${_header_name}_DIRS)
+      set(LAPACKE_INCLUDE_DIRS "${LAPACKE_${_header_name}_DIRS}")
+    else ()
+      set(LAPACKE_INCLUDE_DIRS "LAPACKE_INCLUDE_DIRS-NOTFOUND")
+      if(NOT LAPACKE_FIND_QUIETLY)
+        message(STATUS "Looking for lapacke -- ${_header_name} not found")
+      endif()
+    endif()
+endmacro()
+
+
+
 if (NOT LAPACKE_FOUND)
   set(LAPACKE_DIR "" CACHE PATH "Installation directory of LAPACKE library")
   if (NOT LAPACKE_FIND_QUIETLY)
