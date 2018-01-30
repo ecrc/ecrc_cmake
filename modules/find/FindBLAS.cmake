@@ -167,10 +167,8 @@ macro(Find_Blas_Header _header_name _extra_paths)
     endif()
     list(APPEND _inc_env "${CMAKE_PLATFORM_IMPLICIT_INCLUDE_DIRECTORIES}")
     list(APPEND _inc_env "${CMAKE_C_IMPLICIT_INCLUDE_DIRECTORIES}")
-    if (_extra_paths)
-      list(APPEND _inc_env "${_extra_paths}")
-      list(APPEND _inc_env "${_extra_paths}/include")
-    endif()
+    list(APPEND _inc_env "${_extra_paths}")
+    list(APPEND _inc_env "${_extra_paths}/include")
     list(REMOVE_DUPLICATES _inc_env)
 
 
