@@ -156,7 +156,7 @@ endif()
 # LAPACKE depends on LAPACK
 if (LAPACK_FOUND)
     # find header
-    Find_Lapacke_Header( "lapacke.h" "${LAPACK_INCLUDE_DIRS}" )
+    Find_Lapacke_Header( "lapacke.h" "${LAPACK_DIR_FOUND}" )
 
   if (NOT LAPACKE_STANDALONE)
     # check if a lapacke function exists in the LAPACK lib
