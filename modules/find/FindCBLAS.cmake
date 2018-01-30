@@ -170,6 +170,8 @@ endif()
 
 # find CBLAS
 if (BLAS_FOUND)
+  # find header
+  Find_Cblas_Header( "cblas.h" "${BLAS_DIR_FOUND}" )
 
   if (NOT CBLAS_STANDALONE)
     # check if a cblas function exists in the BLAS lib
