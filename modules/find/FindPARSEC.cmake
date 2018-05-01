@@ -37,8 +37,8 @@
 #  PARSEC_INCLUDE_DIRS_DEP       - parsec + dependencies include directories
 #  PARSEC_LIBRARY_DIRS_DEP       - parsec + dependencies link directories
 #  PARSEC_LIBRARIES_DEP          - parsec libraries + dependencies
-#  PARSEC_daguepp_BIN_DIR        - path to parsec driver daguepp
-#  PARSEC_DAGUEPP                - parsec jdf compiler
+#  PARSEC_parsec_ptgpp_BIN_DIR   - path to parsec driver parsec_ptgpp
+#  PARSEC_PARSEC_PTGPP           - parsec jdf compiler
 # The user can give specific paths where to find the libraries adding cmake
 # options at configure (ex: cmake path/to/project -DPARSEC=path/to/parsec):
 #  PARSEC_DIR                    - Where to find the base directory of parsec
@@ -55,13 +55,13 @@
 # Copyright 2013      Florent Pruvost
 #
 # Distributed under the OSI-approved BSD License (the "License");
-# see accompanying file ECRC-Copyright.txt for details.
+# see accompanying file ALTANAL-Copyright.txt for details.
 #
 # This software is distributed WITHOUT ANY WARRANTY; without even the
 # implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 # See the License for more information.
 #=============================================================================
-# (To distribute this file outside of Ecrc, substitute the full
+# (To distribute this file outside of ALtanal, substitute the full
 #  License text for the above reference.)
 
 include(CheckSymbolExists)
@@ -125,7 +125,7 @@ if(UNIX OR WIN32)
   else()
     if (PARSEC_FIND_REQUIRED)
       message(FATAL_ERROR "Could NOT find libm on your system."
-	"Are you sure to a have a C compiler installed?")
+        "Are you sure to a have a C compiler installed?")
     endif()
   endif()
 endif()
@@ -231,26 +231,27 @@ if(PKG_CONFIG_EXECUTABLE AND NOT PARSEC_GIVEN_BY_USER)
       #endif()
     else()
       message(STATUS "${Magenta}Looking for PARSEC - not found using PkgConfig."
-	"\n   Perhaps you should add the directory containing libparsec.pc"
-	"\n   to the PKG_CONFIG_PATH environment variable.${ColourReset}")
+        "\n   Perhaps you should add the directory containing libparsec.pc"
+        "\n   to the PKG_CONFIG_PATH environment variable.${ColourReset}")
     endif()
   endif()
 
   set(PARSEC_INCLUDE_DIRS_DEP "${PARSEC_INCLUDE_DIRS}")
   set(PARSEC_LIBRARY_DIRS_DEP "${PARSEC_LIBRARY_DIRS}")
   set(PARSEC_LIBRARIES_DEP "${PARSEC_LIBRARIES}")
+  set(PARSEC_C_FLAGS "${PARSEC_CFLAGS_OTHER}")
 
   # create list of binaries to find
-  set(PARSEC_bins_to_find "daguepp")
+  set(PARSEC_bins_to_find "parsec_ptgpp")
 
   # call cmake macro to find the bin path
   if(PARSEC_PREFIX)
     foreach(parsec_bin ${PARSEC_bins_to_find})
       set(PARSEC_${parsec_bin}_BIN_DIR "PARSEC_${parsec_bin}_BIN_DIR-NOTFOUND")
       find_path(PARSEC_${parsec_bin}_BIN_DIR
-	NAMES ${parsec_bin}
-	HINTS ${PARSEC_PREFIX}
-	PATH_SUFFIXES "bin")
+        NAMES ${parsec_bin}
+        HINTS ${PARSEC_PREFIX}
+        PATH_SUFFIXES "bin")
     endforeach()
   else()
     if (PARSEC_FIND_REQUIRED)
@@ -275,7 +276,7 @@ if( (NOT PKG_CONFIG_EXECUTABLE) OR (PKG_CONFIG_EXECUTABLE AND NOT PARSEC_FOUND) 
   elseif(ENV_PARSEC_DIR)
     list(APPEND _inc_env "${ENV_PARSEC_DIR}")
     list(APPEND _inc_env "${ENV_PARSEC_DIR}/include")
-    list(APPEND _inc_env "${ENV_PARSEC_DIR}/include/dague")
+    list(APPEND _inc_env "${ENV_PARSEC_DIR}/include/parsec")
   else()
     if(WIN32)
       string(REPLACE ":" ";" _inc_env "$ENV{INCLUDE}")
@@ -294,36 +295,35 @@ if( (NOT PKG_CONFIG_EXECUTABLE) OR (PKG_CONFIG_EXECUTABLE AND NOT PARSEC_FOUND) 
   list(APPEND _inc_env "${CMAKE_C_IMPLICIT_INCLUDE_DIRECTORIES}")
   list(REMOVE_DUPLICATES _inc_env)
 
-
   # Try to find the parsec headers in the given paths
   # -------------------------------------------------
 
   # create list of headers to find
-  set(PARSEC_hdrs_to_find "dague_config.h" "dague.h")
+  set(PARSEC_hdrs_to_find "parsec_config.h" "parsec.h")
 
   # call cmake macro to find the header path
   if(PARSEC_INCDIR)
     foreach(parsec_hdr ${PARSEC_hdrs_to_find})
       set(PARSEC_${parsec_hdr}_INCLUDE_DIRS "PARSEC_${parsec_hdr}_INCLUDE_DIRS-NOTFOUND")
       find_path(PARSEC_${parsec_hdr}_INCLUDE_DIRS
-	NAMES ${parsec_hdr}
-	HINTS ${PARSEC_INCDIR})
+        NAMES ${parsec_hdr}
+        HINTS ${PARSEC_INCDIR})
     endforeach()
   else()
     if(PARSEC_DIR)
       set(PARSEC_${parsec_hdr}_INCLUDE_DIRS "PARSEC_${parsec_hdr}_INCLUDE_DIRS-NOTFOUND")
       foreach(parsec_hdr ${PARSEC_hdrs_to_find})
-	find_path(PARSEC_${parsec_hdr}_INCLUDE_DIRS
-	  NAMES ${parsec_hdr}
-	  HINTS ${PARSEC_DIR}
-	  PATH_SUFFIXES "include")
+        find_path(PARSEC_${parsec_hdr}_INCLUDE_DIRS
+          NAMES ${parsec_hdr}
+          HINTS ${PARSEC_DIR}
+          PATH_SUFFIXES "include")
       endforeach()
     else()
       foreach(parsec_hdr ${PARSEC_hdrs_to_find})
-	set(PARSEC_${parsec_hdr}_INCLUDE_DIRS "PARSEC_${parsec_hdr}_INCLUDE_DIRS-NOTFOUND")
-	find_path(PARSEC_${parsec_hdr}_INCLUDE_DIRS
-	  NAMES ${parsec_hdr}
-	  HINTS ${_inc_env})
+        set(PARSEC_${parsec_hdr}_INCLUDE_DIRS "PARSEC_${parsec_hdr}_INCLUDE_DIRS-NOTFOUND")
+        find_path(PARSEC_${parsec_hdr}_INCLUDE_DIRS
+          NAMES ${parsec_hdr}
+          HINTS ${_inc_env})
       endforeach()
     endif()
   endif()
@@ -338,7 +338,7 @@ if( (NOT PKG_CONFIG_EXECUTABLE) OR (PKG_CONFIG_EXECUTABLE AND NOT PARSEC_FOUND) 
       list(APPEND PARSEC_INCLUDE_DIRS "${PARSEC_${parsec_hdr}_INCLUDE_DIRS}" )
     else ()
       if(NOT PARSEC_FIND_QUIETLY)
-	message(STATUS "Looking for parsec -- ${parsec_hdr} not found")
+        message(STATUS "Looking for parsec -- ${parsec_hdr} not found")
       endif()
     endif ()
     mark_as_advanced(PARSEC_${parsec_hdr}_INCLUDE_DIRS)
@@ -369,9 +369,9 @@ if( (NOT PKG_CONFIG_EXECUTABLE) OR (PKG_CONFIG_EXECUTABLE AND NOT PARSEC_FOUND) 
       string(REPLACE ":" ";" _lib_env "$ENV{LIB}")
     else()
       if(APPLE)
-	string(REPLACE ":" ";" _lib_env "$ENV{DYLD_LIBRARY_PATH}")
+        string(REPLACE ":" ";" _lib_env "$ENV{DYLD_LIBRARY_PATH}")
       else()
-	string(REPLACE ":" ";" _lib_env "$ENV{LD_LIBRARY_PATH}")
+        string(REPLACE ":" ";" _lib_env "$ENV{LD_LIBRARY_PATH}")
       endif()
       list(APPEND _lib_env "${CMAKE_PLATFORM_IMPLICIT_LINK_DIRECTORIES}")
       list(APPEND _lib_env "${CMAKE_C_IMPLICIT_LINK_DIRECTORIES}")
@@ -383,31 +383,31 @@ if( (NOT PKG_CONFIG_EXECUTABLE) OR (PKG_CONFIG_EXECUTABLE AND NOT PARSEC_FOUND) 
   # ----------------------------------------------
 
   # create list of libs to find
-  set(PARSEC_libs_to_find "dague" "dague-base" "dague_distribution" "dague_distribution_matrix")
+  set(PARSEC_libs_to_find "parsec" "parsec-base" "parsec_distribution" "parsec_distribution_matrix")
 
   # call cmake macro to find the lib path
   if(PARSEC_LIBDIR)
     foreach(parsec_lib ${PARSEC_libs_to_find})
       set(PARSEC_${parsec_lib}_LIBRARY "PARSEC_${parsec_lib}_LIBRARY-NOTFOUND")
       find_library(PARSEC_${parsec_lib}_LIBRARY
-	NAMES ${parsec_lib}
-	HINTS ${PARSEC_LIBDIR})
+        NAMES ${parsec_lib}
+        HINTS ${PARSEC_LIBDIR})
     endforeach()
   else()
     if(PARSEC_DIR)
       foreach(parsec_lib ${PARSEC_libs_to_find})
-	set(PARSEC_${parsec_lib}_LIBRARY "PARSEC_${parsec_lib}_LIBRARY-NOTFOUND")
-	find_library(PARSEC_${parsec_lib}_LIBRARY
-	  NAMES ${parsec_lib}
-	  HINTS ${PARSEC_DIR}
-	  PATH_SUFFIXES lib lib32 lib64)
+        set(PARSEC_${parsec_lib}_LIBRARY "PARSEC_${parsec_lib}_LIBRARY-NOTFOUND")
+        find_library(PARSEC_${parsec_lib}_LIBRARY
+          NAMES ${parsec_lib}
+          HINTS ${PARSEC_DIR}
+          PATH_SUFFIXES lib lib32 lib64)
       endforeach()
     else()
       foreach(parsec_lib ${PARSEC_libs_to_find})
-	set(PARSEC_${parsec_lib}_LIBRARY "PARSEC_${parsec_lib}_LIBRARY-NOTFOUND")
-	find_library(PARSEC_${parsec_lib}_LIBRARY
-	  NAMES ${parsec_lib}
-	  HINTS ${_lib_env})
+        set(PARSEC_${parsec_lib}_LIBRARY "PARSEC_${parsec_lib}_LIBRARY-NOTFOUND")
+        find_library(PARSEC_${parsec_lib}_LIBRARY
+          NAMES ${parsec_lib}
+          HINTS ${_lib_env})
       endforeach()
     endif()
   endif()
@@ -426,7 +426,7 @@ if( (NOT PKG_CONFIG_EXECUTABLE) OR (PKG_CONFIG_EXECUTABLE AND NOT PARSEC_FOUND) 
     else (PARSEC_${parsec_lib}_LIBRARY)
 
       if(NOT PARSEC_FIND_QUIETLY)
-	message(STATUS "Looking for parsec -- lib ${parsec_lib} not found")
+        message(STATUS "Looking for parsec -- lib ${parsec_lib} not found")
       endif()
 
     endif (PARSEC_${parsec_lib}_LIBRARY)
@@ -455,32 +455,32 @@ if( (NOT PKG_CONFIG_EXECUTABLE) OR (PKG_CONFIG_EXECUTABLE AND NOT PARSEC_FOUND) 
   list(REMOVE_DUPLICATES _bin_env)
 
   # create list of binaries to find
-  set(PARSEC_bins_to_find "daguepp")
+  set(PARSEC_bins_to_find "parsec_ptgpp")
 
   # call cmake macro to find the bin path
   if(PARSEC_DIR)
     foreach(parsec_bin ${PARSEC_bins_to_find})
       set(PARSEC_${parsec_bin}_BIN_DIR "PARSEC_${parsec_bin}_BIN_DIR-NOTFOUND")
       find_path(PARSEC_${parsec_bin}_BIN_DIR
-	NAMES ${parsec_bin}
-	HINTS ${PARSEC_DIR}
-	PATH_SUFFIXES "bin")
+        NAMES ${parsec_bin}
+        HINTS ${PARSEC_DIR}
+        PATH_SUFFIXES "bin")
     endforeach()
   else()
     foreach(parsec_bin ${PARSEC_bins_to_find})
       set(PARSEC_${parsec_bin}_BIN_DIR "PARSEC_${parsec_bin}_BIN_DIR-NOTFOUND")
       find_path(PARSEC_${parsec_bin}_BIN_DIR
-	NAMES ${parsec_bin}
-	HINTS ${_bin_env})
+        NAMES ${parsec_bin}
+        HINTS ${_bin_env})
     endforeach()
   endif()
-  if (PARSEC_daguepp_BIN_DIR)
+  if (PARSEC_parsec_ptgpp_BIN_DIR)
     if (NOT PARSEC_FIND_QUIETLY)
-      message(STATUS "Look for PARSEC - compiler daguepp found in ${PARSEC_daguepp_BIN_DIR}")
+      message(STATUS "Look for PARSEC - compiler parsec_ptgpp found in ${PARSEC_parsec_ptgpp_BIN_DIR}")
     endif()
   else()
     if (PARSEC_FIND_REQUIRED)
-      message(FATAL_ERROR "Look for PARSEC - compiler daguepp not found while required")
+      message(FATAL_ERROR "Look for PARSEC - compiler parsec_ptgpp not found while required")
     endif()
   endif()
 
@@ -500,69 +500,69 @@ if( (NOT PKG_CONFIG_EXECUTABLE) OR (PKG_CONFIG_EXECUTABLE AND NOT PARSEC_FOUND) 
     set(CMAKE_REQUIRED_FLAGS)
     foreach(libdir ${PARSEC_LIBRARY_DIRS})
       if (libdir)
-	list(APPEND REQUIRED_LIBDIRS "${libdir}")
+        list(APPEND REQUIRED_LIBDIRS "${libdir}")
       endif()
     endforeach()
     set(REQUIRED_LIBS "${PARSEC_LIBRARIES}")
     # HWLOC
     if (HWLOC_FOUND AND PARSEC_LOOK_FOR_HWLOC)
       if (HWLOC_INCLUDE_DIRS)
-	list(APPEND REQUIRED_INCDIRS "${HWLOC_INCLUDE_DIRS}")
+        list(APPEND REQUIRED_INCDIRS "${HWLOC_INCLUDE_DIRS}")
       endif()
       if (HWLOC_LIBRARY_DIRS)
-	list(APPEND REQUIRED_LIBDIRS "${HWLOC_LIBRARY_DIRS}")
+        list(APPEND REQUIRED_LIBDIRS "${HWLOC_LIBRARY_DIRS}")
       endif()
       foreach(lib ${HWLOC_LIBRARIES})
-	if (EXISTS ${lib} OR ${lib} MATCHES "^-")
-	  list(APPEND REQUIRED_LIBS "${lib}")
-	else()
-	  list(APPEND REQUIRED_LIBS "-l${lib}")
-	endif()
+        if (EXISTS ${lib} OR ${lib} MATCHES "^-")
+          list(APPEND REQUIRED_LIBS "${lib}")
+        else()
+          list(APPEND REQUIRED_LIBS "-l${lib}")
+        endif()
       endforeach()
     endif()
     # MPI
     if (MPI_FOUND AND PARSEC_LOOK_FOR_MPI)
       if (MPI_C_INCLUDE_PATH)
-	list(APPEND REQUIRED_INCDIRS "${MPI_C_INCLUDE_PATH}")
+        list(APPEND REQUIRED_INCDIRS "${MPI_C_INCLUDE_PATH}")
       endif()
       if (MPI_C_LINK_FLAGS)
-	if (${MPI_C_LINK_FLAGS} MATCHES "  -")
-	  string(REGEX REPLACE " -" "-" MPI_C_LINK_FLAGS ${MPI_C_LINK_FLAGS})
-	endif()
-	list(APPEND REQUIRED_LDFLAGS "${MPI_C_LINK_FLAGS}")
+        if (${MPI_C_LINK_FLAGS} MATCHES "  -")
+          string(REGEX REPLACE " -" "-" MPI_C_LINK_FLAGS ${MPI_C_LINK_FLAGS})
+        endif()
+        list(APPEND REQUIRED_LDFLAGS "${MPI_C_LINK_FLAGS}")
       endif()
       list(APPEND REQUIRED_LIBS "${MPI_C_LIBRARIES}")
     endif()
     # CUDA
     if (CUDA_FOUND AND PARSEC_LOOK_FOR_CUDA)
       if (CUDA_INCLUDE_DIRS)
-	list(APPEND REQUIRED_INCDIRS "${CUDA_INCLUDE_DIRS}")
+        list(APPEND REQUIRED_INCDIRS "${CUDA_INCLUDE_DIRS}")
       endif()
       if (CUDA_LIBRARY_DIRS)
-	list(APPEND REQUIRED_LIBDIRS "${CUDA_LIBRARY_DIRS}")
+        list(APPEND REQUIRED_LIBDIRS "${CUDA_LIBRARY_DIRS}")
       endif()
       list(APPEND REQUIRED_LIBS "${CUDA_CUBLAS_LIBRARIES};${CUDA_CUDART_LIBRARY};${CUDA_CUDA_LIBRARY}")
     endif()
     # Fortran
     if (CMAKE_C_COMPILER_ID MATCHES "GNU")
       find_library(
-	FORTRAN_gfortran_LIBRARY
-	NAMES gfortran
-	HINTS ${_lib_env}
-	)
+        FORTRAN_gfortran_LIBRARY
+        NAMES gfortran
+        HINTS ${_lib_env}
+        )
       mark_as_advanced(FORTRAN_gfortran_LIBRARY)
       if (FORTRAN_gfortran_LIBRARY)
-	list(APPEND REQUIRED_LIBS "${FORTRAN_gfortran_LIBRARY}")
+        list(APPEND REQUIRED_LIBS "${FORTRAN_gfortran_LIBRARY}")
       endif()
     elseif (CMAKE_C_COMPILER_ID MATCHES "Intel")
       find_library(
-	FORTRAN_ifcore_LIBRARY
-	NAMES ifcore
-	HINTS ${_lib_env}
-	)
+        FORTRAN_ifcore_LIBRARY
+        NAMES ifcore
+        HINTS ${_lib_env}
+        )
       mark_as_advanced(FORTRAN_ifcore_LIBRARY)
       if (FORTRAN_ifcore_LIBRARY)
-	list(APPEND REQUIRED_LIBS "${FORTRAN_ifcore_LIBRARY}")
+        list(APPEND REQUIRED_LIBS "${FORTRAN_ifcore_LIBRARY}")
       endif()
     endif()
     # EXTRA LIBS such that pthread, m, rt, dl
@@ -582,15 +582,15 @@ if( (NOT PKG_CONFIG_EXECUTABLE) OR (PKG_CONFIG_EXECUTABLE AND NOT PARSEC_FOUND) 
     # test link
     unset(PARSEC_WORKS CACHE)
     include(CheckFunctionExists)
-    check_function_exists(dague_init PARSEC_WORKS)
+    check_function_exists(parsec_init PARSEC_WORKS)
     mark_as_advanced(PARSEC_WORKS)
 
     if(PARSEC_WORKS)
       # save link with dependencies
       if (REQUIRED_FLAGS)
-	set(PARSEC_LIBRARIES_DEP "${REQUIRED_FLAGS};${REQUIRED_LIBS}")
+        set(PARSEC_LIBRARIES_DEP "${REQUIRED_FLAGS};${REQUIRED_LIBS}")
       else()
-	set(PARSEC_LIBRARIES_DEP "${REQUIRED_LIBS}")
+        set(PARSEC_LIBRARIES_DEP "${REQUIRED_LIBS}")
       endif()
       set(PARSEC_LIBRARY_DIRS_DEP "${REQUIRED_LIBDIRS}")
       set(PARSEC_INCLUDE_DIRS_DEP "${REQUIRED_INCDIRS}")
@@ -600,13 +600,13 @@ if( (NOT PKG_CONFIG_EXECUTABLE) OR (PKG_CONFIG_EXECUTABLE AND NOT PARSEC_FOUND) 
       list(REMOVE_DUPLICATES PARSEC_LINKER_FLAGS)
     else()
       if(NOT PARSEC_FIND_QUIETLY)
-	message(STATUS "Looking for parsec : test of dague_init fails")
-	message(STATUS "CMAKE_REQUIRED_LIBRARIES: ${CMAKE_REQUIRED_LIBRARIES}")
-	message(STATUS "CMAKE_REQUIRED_INCLUDES: ${CMAKE_REQUIRED_INCLUDES}")
-	message(STATUS "Check in CMakeFiles/CMakeError.log to figure out why it fails")
-	message(STATUS "Maybe PARSEC is linked with specific libraries. "
-	  "Have you tried with COMPONENTS (HWLOC, CUDA, MPI)? "
-	  "See the explanation in FindPARSEC.cmake.")
+        message(STATUS "Looking for parsec : test of parsec_init fails")
+        message(STATUS "CMAKE_REQUIRED_LIBRARIES: ${CMAKE_REQUIRED_LIBRARIES}")
+        message(STATUS "CMAKE_REQUIRED_INCLUDES: ${CMAKE_REQUIRED_INCLUDES}")
+        message(STATUS "Check in CMakeFiles/CMakeError.log to figure out why it fails")
+        message(STATUS "Maybe PARSEC is linked with specific libraries. "
+          "Have you tried with COMPONENTS (HWLOC, CUDA, MPI)? "
+          "See the explanation in FindPARSEC.cmake.")
       endif()
     endif()
     set(CMAKE_REQUIRED_INCLUDES)
@@ -620,7 +620,7 @@ if (PARSEC_LIBRARIES)
   if (PARSEC_LIBRARY_DIRS)
     foreach(dir ${PARSEC_LIBRARY_DIRS})
       if ("${dir}" MATCHES "parsec")
-	set(first_lib_path "${dir}")
+        set(first_lib_path "${dir}")
       endif()
     endforeach()
   else()
@@ -643,18 +643,19 @@ include(FindPackageHandleStandardArgs)
 if (PKG_CONFIG_EXECUTABLE AND PARSEC_FOUND)
   find_package_handle_standard_args(PARSEC DEFAULT_MSG
     PARSEC_LIBRARIES
-    PARSEC_daguepp_BIN_DIR)
+    PARSEC_parsec_ptgpp_BIN_DIR)
 else()
   find_package_handle_standard_args(PARSEC DEFAULT_MSG
     PARSEC_LIBRARIES
-    PARSEC_daguepp_BIN_DIR
+    PARSEC_parsec_ptgpp_BIN_DIR
     PARSEC_WORKS)
 endif()
 
-if ( PARSEC_daguepp_BIN_DIR )
-  find_program(PARSEC_DAGUEPP
-    NAMES daguepp
-    HINTS ${PARSEC_daguepp_BIN_DIR})
+if ( PARSEC_parsec_ptgpp_BIN_DIR )
+  find_program(PARSEC_PARSEC_PTGPP
+    NAMES parsec_ptgpp
+    HINTS ${PARSEC_parsec_ptgpp_BIN_DIR})
 else()
-  set(PARSEC_DAGUEPP "PARSEC_DAGUEPP-NOTFOUND")
+  set(PARSEC_PARSEC_PTGPP "PARSEC_PARSEC_PTGPP-NOTFOUND")
 endif()
+

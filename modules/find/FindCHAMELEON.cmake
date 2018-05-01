@@ -79,6 +79,7 @@ endif()
 # Try to find CHAMELEON dependencies if specified as COMPONENTS during the call
 set(CHAMELEON_LOOK_FOR_STARPU ON)
 set(CHAMELEON_LOOK_FOR_QUARK OFF)
+set(CHAMELEON_LOOK_FOR_PARSEC OFF)
 set(CHAMELEON_LOOK_FOR_CUDA OFF)
 set(CHAMELEON_LOOK_FOR_MAGMA OFF)
 set(CHAMELEON_LOOK_FOR_MPI OFF)
@@ -90,11 +91,19 @@ if( CHAMELEON_FIND_COMPONENTS )
             # means we look for Chameleon with StarPU
             set(CHAMELEON_LOOK_FOR_STARPU ON)
             set(CHAMELEON_LOOK_FOR_QUARK OFF)
+            set(CHAMELEON_LOOK_FOR_PARSEC OFF)
         endif()
         if (${component} STREQUAL "QUARK")
             # means we look for Chameleon with QUARK
             set(CHAMELEON_LOOK_FOR_QUARK ON)
             set(CHAMELEON_LOOK_FOR_STARPU OFF)
+            set(CHAMELEON_LOOK_FOR_PARSEC OFF)
+        endif()
+        if (${component} STREQUAL "PARSEC")
+            # means we look for Chameleon with QUARK
+            set(CHAMELEON_LOOK_FOR_PARSEC ON)
+            set(CHAMELEON_LOOK_FOR_STARPU OFF)
+            set(CHAMELEON_LOOK_FOR_QUARK OFF)
         endif()
         if (${component} STREQUAL "CUDA")
             # means we look for Chameleon with CUDA
@@ -374,6 +383,33 @@ if( (NOT PKG_CONFIG_EXECUTABLE) OR (PKG_CONFIG_EXECUTABLE AND NOT CHAMELEON_FOUN
 
     endif()
 
+  if( NOT PARSEC_FOUND AND CHAMELEON_LOOK_FOR_PARSEC)
+
+
+    # create list of components in order to make a single call to find_package(parsec...)
+    # we explicitly need a StarPU version built with hwloc
+    set(PARSEC_COMPONENT_LIST "HWLOC")
+
+    # PARSEC may depend on MPI
+    # allows to use an external mpi compilation by setting compilers with
+    # -DMPI_C_COMPILER=path/to/mpicc -DMPI_Fortran_COMPILER=path/to/mpif90
+    # at cmake configure
+    if (CHAMELEON_LOOK_FOR_MPI)
+      if(NOT MPI_C_COMPILER)
+        set(MPI_C_COMPILER mpicc)
+      endif()
+      list(APPEND PARSEC_COMPONENT_LIST "MPI")
+    endif()
+    if (CHAMELEON_LOOK_FOR_CUDA)
+      list(APPEND PARSEC_COMPONENT_LIST "CUDA")
+    endif()
+    if (CHAMELEON_FIND_REQUIRED AND CHAMELEON_FIND_REQUIRED_PARSEC)
+      find_package(PARSEC REQUIRED ${PARSEC_COMPONENT_LIST})
+    else()
+      find_package(PARSEC COMPONENTS ${PARSEC_COMPONENT_LIST})
+    endif()
+
+  endif()
     # Looking for include
     # -------------------
 
@@ -480,6 +516,8 @@ if( (NOT PKG_CONFIG_EXECUTABLE) OR (PKG_CONFIG_EXECUTABLE AND NOT CHAMELEON_FOUN
         list(APPEND CHAMELEON_libs_to_find "chameleon_starpu")
     elseif (QUARK_FOUND)
         list(APPEND CHAMELEON_libs_to_find "chameleon_quark")
+    elseif (PARSEC_FOUND)
+    list(APPEND CHAMELEON_libs_to_find "chameleon_parsec")
     endif()
     list(APPEND CHAMELEON_libs_to_find "coreblas")
 
@@ -590,6 +628,30 @@ if( (NOT PKG_CONFIG_EXECUTABLE) OR (PKG_CONFIG_EXECUTABLE AND NOT CHAMELEON_FOUN
                 list(APPEND REQUIRED_LIBS "${QUARK_LIBRARIES}")
             endif()
         endif()
+    # PARSEC
+    if (PARSEC_FOUND AND CHAMELEON_LOOK_FOR_PARSEC)
+      if (PARSEC_INCLUDE_DIRS_DEP)
+        list(APPEND REQUIRED_INCDIRS "${PARSEC_INCLUDE_DIRS_DEP}")
+      elseif (PARSEC_INCLUDE_DIRS)
+        list(APPEND REQUIRED_INCDIRS "${PARSEC_INCLUDE_DIRS}")
+      endif()
+      if(PARSEC_LIBRARY_DIRS_DEP)
+        list(APPEND REQUIRED_LIBDIRS "${PARSEC_LIBRARY_DIRS_DEP}")
+      elseif(PARSEC_LIBRARY_DIRS)
+        list(APPEND REQUIRED_LIBDIRS "${PARSEC_LIBRARY_DIRS}")
+      endif()
+      if (PARSEC_LIBRARIES_DEP)
+        list(APPEND REQUIRED_LIBS "${PARSEC_LIBRARIES_DEP}")
+      elseif (PARSEC_LIBRARIES)
+        foreach(lib ${PARSEC_LIBRARIES})
+          if (EXISTS ${lib} OR ${lib} MATCHES "^-")
+            list(APPEND REQUIRED_LIBS "${lib}")
+          else()
+            list(APPEND REQUIRED_LIBS "-l${lib}")
+          endif()
+        endforeach()
+      endif()
+    endif()
         # CUDA
         if (CUDA_FOUND AND CHAMELEON_LOOK_FOR_CUDA)
             if (CUDA_INCLUDE_DIRS)
