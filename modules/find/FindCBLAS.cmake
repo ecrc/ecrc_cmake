@@ -75,6 +75,80 @@
 # (To distribute this file outside of Ecrc, substitute the full
 #  License text for the above reference.)
 
+macro(Find_Cblas_Header _header_name _extra_paths)
+    # Looking for include
+    # -------------------
+
+    # Add system include paths to search include
+    # ------------------------------------------
+    unset(_inc_env)
+    set(ENV_CBLAS_DIR "$ENV{CBLAS_DIR}")
+    set(ENV_CBLAS_INCDIR "$ENV{CBLAS_INCDIR}")
+    if(ENV_CBLAS_INCDIR)
+      list(APPEND _inc_env "${ENV_CBLAS_INCDIR}")
+    elseif(ENV_CBLAS_DIR)
+      list(APPEND _inc_env "${ENV_CBLAS_DIR}")
+      list(APPEND _inc_env "${ENV_CBLAS_DIR}/include")
+    else()
+      # system variables
+      if(WIN32)
+        string(REPLACE ":" ";" _path_env "$ENV{INCLUDE}")
+        list(APPEND _inc_env "${_path_env}")
+      else()
+        string(REPLACE ":" ";" _path_env "$ENV{INCLUDE}")
+        list(APPEND _inc_env "${_path_env}")
+        string(REPLACE ":" ";" _path_env "$ENV{C_INCLUDE_PATH}")
+        list(APPEND _inc_env "${_path_env}")
+        string(REPLACE ":" ";" _path_env "$ENV{CPATH}")
+        list(APPEND _inc_env "${_path_env}")
+        string(REPLACE ":" ";" _path_env "$ENV{INCLUDE_PATH}")
+        list(APPEND _inc_env "${_path_env}")
+      endif()
+    endif()
+    list(APPEND _inc_env "${CMAKE_PLATFORM_IMPLICIT_INCLUDE_DIRECTORIES}")
+    list(APPEND _inc_env "${CMAKE_C_IMPLICIT_INCLUDE_DIRECTORIES}")
+    list(APPEND _inc_env "${_extra_paths}")
+    list(APPEND _inc_env "${_extra_paths}/include")
+    list(REMOVE_DUPLICATES _inc_env)
+
+
+    # set paths where to look for
+    set(PATH_TO_LOOK_FOR "${_inc_env}")
+    # Try to find the fftw header in the given paths
+    # -------------------------------------------------
+    # call cmake macro to find the header path
+    if(CBLAS_INCDIR)
+      set(CBLAS_${_header_name}_DIRS "CBLAS_${_header_name}_DIRS-NOTFOUND")
+      find_path(CBLAS_${_header_name}_DIRS
+        NAMES ${_header_name}
+        HINTS ${CBLAS_INCDIR})
+    else()
+      if(CBLAS_DIR)
+        set(CBLAS_${_header_name}_DIRS "CBLAS_${_header_name}_DIRS-NOTFOUND")
+        find_path(CBLAS_${_header_name}_DIRS
+          NAMES ${_header_name}
+          HINTS ${CBLAS_DIR}
+          PATH_SUFFIXES "include")
+      else()
+        set(CBLAS_${_header_name}_DIRS "CBLAS_${_header_name}_DIRS-NOTFOUND")
+        find_path(CBLAS_${_header_name}_DIRS
+          NAMES ${_header_name}
+          HINTS ${PATH_TO_LOOK_FOR})
+      endif()
+    endif()
+    mark_as_advanced(CBLAS_${_header_name}_DIRS)
+
+    # If found, add path to cmake variable
+    # ------------------------------------
+    if (CBLAS_${_header_name}_DIRS)
+      set(CBLAS_INCLUDE_DIRS "${CBLAS_${_header_name}_DIRS}")
+    else ()
+      set(CBLAS_INCLUDE_DIRS "CBLAS_INCLUDE_DIRS-NOTFOUND")
+      if(NOT CBLAS_FIND_QUIETLY)
+        message(STATUS "Looking for CBLAS -- ${_header_name} not found")
+      endif()
+    endif()
+endmacro()
 
 if (NOT CBLAS_FOUND)
   set(CBLAS_DIR "" CACHE PATH "Installation directory of CBLAS library")
@@ -96,6 +170,8 @@ endif()
 
 # find CBLAS
 if (BLAS_FOUND)
+  # find header
+  Find_Cblas_Header( "cblas.h" "${BLAS_DIR_FOUND}" )
 
   if (NOT CBLAS_STANDALONE)
     # check if a cblas function exists in the BLAS lib

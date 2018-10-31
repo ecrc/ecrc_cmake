@@ -27,6 +27,13 @@
 #
 ###
 
+# Add the path where we handle our FindFOO.cmake to seek for liraries
+if( NOT ECRC_CMAKE_MODULE_PATH )
+    message( WARNING "ECRC_CMAKE_MODULE_PATH is not set, assuming default value: \${CMAKE_CURRENT_SOURCE_DIR}/cmake_modules/ecrc/modules" )
+    set(ECRC_CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake_modules/ecrc/modules")
+endif()
+list(APPEND CMAKE_MODULE_PATH ${ECRC_CMAKE_MODULE_PATH}/find)
+
 # This include is required to check symbols of libs in the main CMakeLists.txt
 include(CheckFunctionExists)
 
@@ -48,9 +55,6 @@ include(AuxilaryFlags)
 
 # Define some variables to et info about ressources
 include(Ressources)
-
-# Add the path where we handle our FindFOO.cmake to seek for liraries
-list(APPEND CMAKE_MODULE_PATH ${ECRC_CMAKE_MODULE_PATH}/find)
 
 option(ECRC_ENABLE_WARNING       "Enable warning messages" OFF)
 option(ECRC_ENABLE_COVERAGE      "Enable flags for coverage test" OFF)
