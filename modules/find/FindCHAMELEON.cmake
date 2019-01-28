@@ -411,35 +411,35 @@ if( (NOT PKG_CONFIG_EXECUTABLE) OR (PKG_CONFIG_EXECUTABLE AND NOT CHAMELEON_FOUN
     # ---------------------------------------------------
     # call cmake macro to find the header path
     if(CHAMELEON_INCDIR)
-        set(CHAMELEON_morse.h_DIRS "CHAMELEON_morse.h_DIRS-NOTFOUND")
-        find_path(CHAMELEON_morse.h_DIRS
-          NAMES morse.h
+        set(CHAMELEON_chameleon.h_DIRS "CHAMELEON_chameleon.h_DIRS-NOTFOUND")
+        find_path(CHAMELEON_chameleon.h_DIRS
+          NAMES chameleon.h
           HINTS ${CHAMELEON_INCDIR})
     else()
         if(CHAMELEON_DIR)
-            set(CHAMELEON_morse.h_DIRS "CHAMELEON_morse.h_DIRS-NOTFOUND")
-            find_path(CHAMELEON_morse.h_DIRS
-              NAMES morse.h
+            set(CHAMELEON_chameleon.h_DIRS "CHAMELEON_chameleon.h_DIRS-NOTFOUND")
+            find_path(CHAMELEON_chameleon.h_DIRS
+              NAMES chameleon.h
               HINTS ${CHAMELEON_DIR}
               PATH_SUFFIXES "include" "include/chameleon")
         else()
-            set(CHAMELEON_morse.h_DIRS "CHAMELEON_morse.h_DIRS-NOTFOUND")
-            find_path(CHAMELEON_morse.h_DIRS
-              NAMES morse.h
+            set(CHAMELEON_chameleon.h_DIRS "CHAMELEON_chameleon.h_DIRS-NOTFOUND")
+            find_path(CHAMELEON_chameleon.h_DIRS
+              NAMES chameleon.h
               HINTS ${_inc_env}
               PATH_SUFFIXES "chameleon")
         endif()
     endif()
-    mark_as_advanced(CHAMELEON_morse.h_DIRS)
+    mark_as_advanced(CHAMELEON_chameleon.h_DIRS)
 
     # If found, add path to cmake variable
     # ------------------------------------
-    if (CHAMELEON_morse.h_DIRS)
-        set(CHAMELEON_INCLUDE_DIRS "${CHAMELEON_morse.h_DIRS}")
+    if (CHAMELEON_chameleon.h_DIRS)
+        set(CHAMELEON_INCLUDE_DIRS "${CHAMELEON_chameleon.h_DIRS}")
     else ()
         set(CHAMELEON_INCLUDE_DIRS "CHAMELEON_INCLUDE_DIRS-NOTFOUND")
         if(NOT CHAMELEON_FIND_QUIETLY)
-            message(STATUS "Looking for chameleon -- morse.h not found")
+            message(STATUS "Looking for chameleon -- chameleon.h not found")
         endif()
     endif()
 
