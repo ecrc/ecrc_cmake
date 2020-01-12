@@ -30,7 +30,7 @@
 #  BLA_STATIC  if set on this determines what kind of linkage we do (static)
 #  BLA_VENDOR  if set checks only the specified vendor, if not set checks
 #     all the possibilities
-#  BLAS_VENDOR_FOUND stores the BLAS vendor found 
+#  BLAS_VENDOR_FOUND stores the BLAS vendor found
 #  BLA_F95     if set on tries to find the f95 interfaces for BLAS/LAPACK
 # The user can give specific paths where to find the libraries adding cmake
 # options at configure (ex: cmake path/to/project -DBLAS_DIR=path/to/blas):
@@ -67,14 +67,38 @@
 #
 
 #=============================================================================
+# CMake - Cross Platform Makefile Generator
+# Copyright 2000-2020 Kitware, Inc. and Contributors
+# All rights reserved.
+#
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted provided that the following conditions
+# are met:
+#
+# * Redistributions of source code must retain the above copyright
+#   notice, this list of conditions and the following disclaimer.
+#
+# * Redistributions in binary form must reproduce the above copyright
+#   notice, this list of conditions and the following disclaimer in the
+#   documentation and/or other materials provided with the distribution.
+#
+# * Neither the name of Kitware, Inc. nor the names of Contributors
+#   may be used to endorse or promote products derived from this
+#   software without specific prior written permission.
+#
+# THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+# "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+# LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+# A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+# HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+# SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+# LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+# DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+# THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+# (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+# OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 # Copyright 2007-2009 Kitware, Inc.
 #
-# Distributed under the OSI-approved BSD License (the "License");
-# see accompanying file Copyright.txt for details.
-#
-# This software is distributed WITHOUT ANY WARRANTY; without even the
-# implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-# See the License for more information.
 #=============================================================================
 # (To distribute this file outside of CMake, substitute the full
 #  License text for the above reference.)
@@ -924,7 +948,7 @@ if (BLA_VENDOR STREQUAL "DXML" OR BLA_VENDOR STREQUAL "All")
       # TODO Find_Blas_Header( "blas.h" "" )
       set (BLAS_VENDOR_FOUND "DXML")
   endif()
-  
+
 endif (BLA_VENDOR STREQUAL "DXML" OR BLA_VENDOR STREQUAL "All")
 
 
@@ -1460,4 +1484,3 @@ if (BLAS_FOUND)
 endif()
 mark_as_advanced(BLAS_DIR)
 mark_as_advanced(BLAS_DIR_FOUND)
-
