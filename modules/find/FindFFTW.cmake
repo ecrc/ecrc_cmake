@@ -700,7 +700,7 @@ if( (NOT PKG_CONFIG_EXECUTABLE) OR
     endif()
     # OMP
     if(FFTW_LOOK_FOR_OMP)
-      set(REQUIRED_FLAGS "-fopenmp")
+      set(REQUIRED_FLAGS "${OpenMP_C_FLAGS}")
       #if (CMAKE_C_COMPILER_ID STREQUAL "GNU")
       #  # either gomp ...
       #  list(APPEND REQUIRED_LIBS "-lgomp")
