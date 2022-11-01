@@ -37,28 +37,28 @@ set(RP_CODEGEN         ${ECRC_CMAKE_MODULE_PATH}/precision_generator/codegen.py)
 if( NOT DEFINED RP_${CMAKE_PROJECT_NAME}_DICTIONNARY )
   message( WARNING "RulesPrecisions included before RP_${CMAKE_PROJECT_NAME}_DICTIONNARY was defined (Default is used)" )
   set(RP_${CMAKE_PROJECT_NAME}_DICTIONNARY ${ECRC_CMAKE_MODULE_PATH}/precision_generator/subs.py
-    CACHE INTERNAL "Dictionnary used for precision generation" )
+          CACHE INTERNAL "Dictionnary used for precision generation" )
 else()
-  set(RP_${CMAKE_PROJECT_NAME}_DICTIONNARY ${RP_${CMAKE_PROJECT_NAME}_DICTIONNARY}
-    CACHE INTERNAL "Dictionnary used for precision generation" )
+  set(RP_${CMAKE_PROJECT_NAME}_DICTIONNARY ${ECRC_CMAKE_MODULE_PATH}/precision_generator/subs.py
+          CACHE INTERNAL "Dictionnary used for precision generation" )
 endif()
-
+message("${RP_${CMAKE_PROJECT_NAME}_DICTIONNARY}")
 # Default Precisions
 # ------------------
 if( NOT DEFINED RP_${CMAKE_PROJECT_NAME}_PRECISIONS )
   message( WARNING "RulesPrecisions included before RP_${CMAKE_PROJECT_NAME}_PRECISIONS was defined (\"s;d;c;z\" is used)" )
   set(RP_${CMAKE_PROJECT_NAME}_PRECISIONS "s;d;c;z"
-    CACHE INTERNAL "Set of available precisions for the project" )
+          CACHE INTERNAL "Set of available precisions for the project" )
 else()
   set(RP_${CMAKE_PROJECT_NAME}_PRECISIONS ${RP_${CMAKE_PROJECT_NAME}_PRECISIONS}
-    CACHE INTERNAL "Set of available precisions for the project" )
+          CACHE INTERNAL "Set of available precisions for the project" )
 endif()
 
 # Detect if compilation is done in or out of place
 # ------------------------------------------------
 string(COMPARE EQUAL "${CMAKE_SOURCE_DIR}" "${CMAKE_BINARY_DIR}" __inplace)
 set( ${CMAKE_PROJECT_NAME}_COMPILE_INPLACE ${__inplace}
-  CACHE INTERNAL "Defines if the project compilation is made inplace or not" )
+        CACHE INTERNAL "Defines if the project compilation is made inplace or not" )
 
 # Detect default settings
 # -----------------------
@@ -96,29 +96,29 @@ endforeach()
 # -----------------------
 if( ${_prec_S} )
   option(${PROJECT_NAME}_PREC_S
-    "Build ${PROJECT_NAME} real single precision" ON)
+          "Build ${PROJECT_NAME} real single precision" ON)
 endif()
 if( ${_prec_D} )
   option(${PROJECT_NAME}_PREC_D
-    "Build ${PROJECT_NAME} real double precision" ON)
+          "Build ${PROJECT_NAME} real double precision" ON)
 endif()
 
 if( ${_prec_C} )
   cmake_dependent_option(${PROJECT_NAME}_PREC_C
-    "Build ${PROJECT_NAME} complex single precision" ON "${PROJECT_NAME}_PREC_S" OFF)
+          "Build ${PROJECT_NAME} complex single precision" ON "${PROJECT_NAME}_PREC_S" OFF)
 endif()
 if( ${_prec_Z} )
   cmake_dependent_option(${PROJECT_NAME}_PREC_Z
-    "Build ${PROJECT_NAME} complex double precision" ON "${PROJECT_NAME}_PREC_D" OFF)
+          "Build ${PROJECT_NAME} complex double precision" ON "${PROJECT_NAME}_PREC_D" OFF)
 endif()
 
 if( ${_prec_DS} )
   cmake_dependent_option(${PROJECT_NAME}_PREC_DS
-    "Build ${PROJECT_NAME} real mixed precision"    ON "${PROJECT_NAME}_PREC_S;${PROJECT_NAME}_PREC_D" OFF)
+          "Build ${PROJECT_NAME} real mixed precision"    ON "${PROJECT_NAME}_PREC_S;${PROJECT_NAME}_PREC_D" OFF)
 endif()
 if( ${_prec_ZC} )
   cmake_dependent_option(${PROJECT_NAME}_PREC_ZC
-    "Build ${PROJECT_NAME} complex mixed precision" ON "${PROJECT_NAME}_PREC_C;${PROJECT_NAME}_PREC_Z" OFF)
+          "Build ${PROJECT_NAME} complex mixed precision" ON "${PROJECT_NAME}_PREC_C;${PROJECT_NAME}_PREC_Z" OFF)
 endif()
 
 # Define precision supported by the project
@@ -157,6 +157,10 @@ endif()
 # the target receives a -DPRECISION_p in its cflags.
 #
 include(ParseArguments)
+
+# Add a hint to help Cmake to find the correct python version:
+# (see https://cmake.org/cmake/help/v3.0/module/FindPythonInterp.html)
+set(Python_ADDITIONAL_VERSIONS 2)
 find_package(PythonInterp REQUIRED)
 
 MACRO(precisions_rules_py)
@@ -201,11 +205,9 @@ MACRO(precisions_rules_py)
     set(sources_list "${sources_list} ${_src}")
   endforeach()
 
-  set(gencmd ${PYTHON_EXECUTABLE} ${RP_GENDEPENDENCIES} -f "${sources_list}" -p "${options_list}" -s "${CMAKE_CURRENT_SOURCE_DIR}" ${PRECISIONPP_arg} ${PRECISIONPP_prefix})
-  EXECUTE_PROCESS(COMMAND ${gencmd} OUTPUT_VARIABLE dependencies_list)
-
+  EXECUTE_PROCESS(COMMAND ${PYTHON_EXECUTABLE} ${RP_GENDEPENDENCIES} -f ${sources_list} -p ${options_list} -s ${CMAKE_CURRENT_SOURCE_DIR} ${PRECISIONPP_arg} ${PRECISIONPP_prefix}
+          OUTPUT_VARIABLE dependencies_list)
   foreach(_dependency ${dependencies_list})
-
     string(STRIP "${_dependency}" _dependency)
     string(COMPARE NOTEQUAL "${_dependency}" "" not_empty)
     if( not_empty )
@@ -213,36 +215,32 @@ MACRO(precisions_rules_py)
       string(REGEX REPLACE "^(.*),(.*),(.*)$" "\\1" _dependency_INPUT "${_dependency}")
       set(_dependency_PREC   "${CMAKE_MATCH_2}")
       set(_dependency_OUTPUT "${CMAKE_MATCH_3}")
-
-      set(pythoncmd ${PYTHON_EXECUTABLE} ${RP_CODEGEN} -f ${CMAKE_CURRENT_SOURCE_DIR}/${_dependency_INPUT} -p ${_dependency_PREC} ${PRECISIONPP_arg} ${PRECISIONPP_prefix})
-
       string(STRIP "${_dependency_OUTPUT}" _dependency_OUTPUT)
       string(COMPARE NOTEQUAL "${_dependency_OUTPUT}" "" got_file)
 
       # Force the copy of the original files in the binary_dir
       # for VPATH compilation
       if( NOT ${CMAKE_PROJECT_NAME}_COMPILE_INPLACE )
-	set(generate_out 1)
+        set(generate_out 1)
       else( NOT ${CMAKE_PROJECT_NAME}_COMPILE_INPLACE )
-	string(COMPARE NOTEQUAL "${_dependency_OUTPUT}" "${_dependency_INPUT}" generate_out )
+        string(COMPARE NOTEQUAL "${_dependency_OUTPUT}" "${_dependency_INPUT}" generate_out )
       endif()
 
       # We generate a dependency only if a file will be generated
       if( got_file )
-	if( generate_out )
-	  # the custom command is executed in CMAKE_CURRENT_BINARY_DIR
-	  ADD_CUSTOM_COMMAND(
-	    OUTPUT ${_dependency_OUTPUT}
-	    COMMAND ${CMAKE_COMMAND} -E remove -f ${_dependency_OUTPUT} && ${pythoncmd} && chmod a-w ${_dependency_OUTPUT}
-	    DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/${_dependency_INPUT} ${RP_CODEGEN} ${RP_${CMAKE_PROJECT_NAME}_DICTIONNARY})
+        if( generate_out )
+          # the custom command is executed in CMAKE_CURRENT_BINARY_DIR
+          ADD_CUSTOM_COMMAND(
+                  OUTPUT ${_dependency_OUTPUT}
+                  COMMAND ${CMAKE_COMMAND} -E remove -f ${_dependency_OUTPUT} && ${PYTHON_EXECUTABLE} ${RP_CODEGEN} -f ${CMAKE_CURRENT_SOURCE_DIR}/${_dependency_INPUT} -p ${_dependency_PREC} ${PRECISIONPP_arg} ${PRECISIONPP_prefix}
+                  DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/${_dependency_INPUT} ${RP_CODEGEN} ${RP_${CMAKE_PROJECT_NAME}_DICTIONNARY})
 
-	  set_SOURCE_FILES_PROPERTIES(${_dependency_OUTPUT} PROPERTIES COMPILE_FLAGS "-DPRECISION_${_dependency_PREC}" GENERATED 1 IS_IN_BINARY_DIR 1 )
+          set_source_files_properties(${_dependency_OUTPUT} PROPERTIES COMPILE_FLAGS "-DPRECISION_${_dependency_PREC}" GENERATED 1 IS_IN_BINARY_DIR 1 )
+        else( generate_out )
+          set_source_files_properties(${_dependency_OUTPUT} PROPERTIES COMPILE_FLAGS "-DPRECISION_${_dependency_PREC}" GENERATED 0 )
+        endif( generate_out )
 
-	else( generate_out )
-	  set_SOURCE_FILES_PROPERTIES(${_dependency_OUTPUT} PROPERTIES COMPILE_FLAGS "-DPRECISION_${_dependency_PREC}" GENERATED 0 )
-	endif( generate_out )
-
-	list(APPEND ${OUTPUTLIST} ${_dependency_OUTPUT})
+        list(APPEND ${OUTPUTLIST} ${_dependency_OUTPUT})
       endif( got_file )
     endif()
   endforeach()

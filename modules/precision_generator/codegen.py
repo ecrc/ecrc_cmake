@@ -82,34 +82,29 @@ def main():
 
   if options.make:
     """If the program should be GNU Make friendly."""
-    print '## Automatically generated Makefile';
-    print 'PYTHON ?= python';
+    print('## Automatically generated Makefile');
+    print('PYTHON ?= python');
 
   c = Conversion(); """This initializes the variable for static member access."""
 
   for tuple in work:
     """For each valid conversion file found."""
-    try:
-      """Try creating and executing a converter."""
-      c = Conversion(tuple[0], tuple[1], tuple[2]);
-      c.run();
-    except Exception, e:
-      print >> sys.stderr, str(e);
-      continue;
+    c = Conversion(tuple[0], tuple[1], tuple[2]);
+    c.run();
 
   if options.make:
     """If the program should be GNU Make friendly."""
-    print 'gen = ',' '+' '.join(c.files_out);
-    print 'cleangen:';
-    print '\trm -f $(gen)';
-    print 'generate: $(gen)';
-    print '.PHONY: cleangen generate';
+    print('gen = ',' '+' '.join(c.files_out));
+    print('cleangen:');
+    print('\trm -f $(gen)');
+    print('generate: $(gen)');
+    print('.PHONY: cleangen generate');
   if options.in_print:
     """Should we print the input files?"""
-    print ' '.join(c.files_in);
+    print(' '.join(c.files_in));
   if options.out_print:
     """Should we print the output files?"""
-    print ' '.join(c.files_out);
+    print(' '.join(c.files_out));
   if options.out_clean:
     """Clean generated files"""
     for file in c.files_out:
