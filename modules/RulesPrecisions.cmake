@@ -37,10 +37,10 @@ set(RP_CODEGEN         ${ECRC_CMAKE_MODULE_PATH}/precision_generator/codegen.py)
 if( NOT DEFINED RP_${CMAKE_PROJECT_NAME}_DICTIONNARY )
   message( WARNING "RulesPrecisions included before RP_${CMAKE_PROJECT_NAME}_DICTIONNARY was defined (Default is used)" )
   set(RP_${CMAKE_PROJECT_NAME}_DICTIONNARY ${ECRC_CMAKE_MODULE_PATH}/precision_generator/subs.py
-          CACHE INTERNAL "Dictionnary used for precision generation" )
+      CACHE INTERNAL "Dictionnary used for precision generation" )
 else()
   set(RP_${CMAKE_PROJECT_NAME}_DICTIONNARY ${ECRC_CMAKE_MODULE_PATH}/precision_generator/subs.py
-          CACHE INTERNAL "Dictionnary used for precision generation" )
+     CACHE INTERNAL "Dictionnary used for precision generation" )
 endif()
 message("${RP_${CMAKE_PROJECT_NAME}_DICTIONNARY}")
 # Default Precisions
@@ -48,17 +48,17 @@ message("${RP_${CMAKE_PROJECT_NAME}_DICTIONNARY}")
 if( NOT DEFINED RP_${CMAKE_PROJECT_NAME}_PRECISIONS )
   message( WARNING "RulesPrecisions included before RP_${CMAKE_PROJECT_NAME}_PRECISIONS was defined (\"s;d;c;z\" is used)" )
   set(RP_${CMAKE_PROJECT_NAME}_PRECISIONS "s;d;c;z"
-          CACHE INTERNAL "Set of available precisions for the project" )
+      CACHE INTERNAL "Set of available precisions for the project" )
 else()
   set(RP_${CMAKE_PROJECT_NAME}_PRECISIONS ${RP_${CMAKE_PROJECT_NAME}_PRECISIONS}
-          CACHE INTERNAL "Set of available precisions for the project" )
+    CACHE INTERNAL "Set of available precisions for the project" )
 endif()
 
 # Detect if compilation is done in or out of place
 # ------------------------------------------------
 string(COMPARE EQUAL "${CMAKE_SOURCE_DIR}" "${CMAKE_BINARY_DIR}" __inplace)
 set( ${CMAKE_PROJECT_NAME}_COMPILE_INPLACE ${__inplace}
-        CACHE INTERNAL "Defines if the project compilation is made inplace or not" )
+  CACHE INTERNAL "Defines if the project compilation is made inplace or not" )
 
 # Detect default settings
 # -----------------------
@@ -96,29 +96,29 @@ endforeach()
 # -----------------------
 if( ${_prec_S} )
   option(${PROJECT_NAME}_PREC_S
-          "Build ${PROJECT_NAME} real single precision" ON)
+    "Build ${PROJECT_NAME} real single precision" ON)
 endif()
 if( ${_prec_D} )
   option(${PROJECT_NAME}_PREC_D
-          "Build ${PROJECT_NAME} real double precision" ON)
+    "Build ${PROJECT_NAME} real double precision" ON)
 endif()
 
 if( ${_prec_C} )
   cmake_dependent_option(${PROJECT_NAME}_PREC_C
-          "Build ${PROJECT_NAME} complex single precision" ON "${PROJECT_NAME}_PREC_S" OFF)
+    "Build ${PROJECT_NAME} complex single precision" ON "${PROJECT_NAME}_PREC_S" OFF)
 endif()
 if( ${_prec_Z} )
   cmake_dependent_option(${PROJECT_NAME}_PREC_Z
-          "Build ${PROJECT_NAME} complex double precision" ON "${PROJECT_NAME}_PREC_D" OFF)
+    "Build ${PROJECT_NAME} complex double precision" ON "${PROJECT_NAME}_PREC_D" OFF)
 endif()
 
 if( ${_prec_DS} )
   cmake_dependent_option(${PROJECT_NAME}_PREC_DS
-          "Build ${PROJECT_NAME} real mixed precision"    ON "${PROJECT_NAME}_PREC_S;${PROJECT_NAME}_PREC_D" OFF)
+    "Build ${PROJECT_NAME} real mixed precision"    ON "${PROJECT_NAME}_PREC_S;${PROJECT_NAME}_PREC_D" OFF)
 endif()
 if( ${_prec_ZC} )
   cmake_dependent_option(${PROJECT_NAME}_PREC_ZC
-          "Build ${PROJECT_NAME} complex mixed precision" ON "${PROJECT_NAME}_PREC_C;${PROJECT_NAME}_PREC_Z" OFF)
+    "Build ${PROJECT_NAME} complex mixed precision" ON "${PROJECT_NAME}_PREC_C;${PROJECT_NAME}_PREC_Z" OFF)
 endif()
 
 # Define precision supported by the project
