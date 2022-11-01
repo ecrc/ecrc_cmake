@@ -232,13 +232,13 @@ MACRO(precisions_rules_py)
 	if( generate_out )
 	  # the custom command is executed in CMAKE_CURRENT_BINARY_DIR
 	  ADD_CUSTOM_COMMAND(
-	          OUTPUT ${_dependency_OUTPUT}
-	          COMMAND ${CMAKE_COMMAND} -E remove -f ${_dependency_OUTPUT} && ${PYTHON_EXECUTABLE} ${RP_CODEGEN} -f ${CMAKE_CURRENT_SOURCE_DIR}/${_dependency_INPUT} -p ${_dependency_PREC} ${PRECISIONPP_arg} ${PRECISIONPP_prefix}
-	          DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/${_dependency_INPUT} ${RP_CODEGEN} ${RP_${CMAKE_PROJECT_NAME}_DICTIONNARY})
+	    OUTPUT ${_dependency_OUTPUT}
+	    COMMAND ${CMAKE_COMMAND} -E remove -f ${_dependency_OUTPUT} && ${PYTHON_EXECUTABLE} ${RP_CODEGEN} -f ${CMAKE_CURRENT_SOURCE_DIR}/${_dependency_INPUT} -p ${_dependency_PREC} ${PRECISIONPP_arg} ${PRECISIONPP_prefix}
+	    DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/${_dependency_INPUT} ${RP_CODEGEN} ${RP_${CMAKE_PROJECT_NAME}_DICTIONNARY})
 
-	  set_source_files_properties(${_dependency_OUTPUT} PROPERTIES COMPILE_FLAGS "-DPRECISION_${_dependency_PREC}" GENERATED 1 IS_IN_BINARY_DIR 1 )
+	  set_SOURCE_FILES_PROPERTIES(${_dependency_OUTPUT} PROPERTIES COMPILE_FLAGS "-DPRECISION_${_dependency_PREC}" GENERATED 1 IS_IN_BINARY_DIR 1 )
 	else( generate_out )
-	  set_source_files_properties(${_dependency_OUTPUT} PROPERTIES COMPILE_FLAGS "-DPRECISION_${_dependency_PREC}" GENERATED 0 )
+	  set_SOURCE_FILES_PROPERTIES(${_dependency_OUTPUT} PROPERTIES COMPILE_FLAGS "-DPRECISION_${_dependency_PREC}" GENERATED 0 )
 
 	endif( generate_out )
 
