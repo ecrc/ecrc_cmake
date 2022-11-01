@@ -37,18 +37,18 @@ set(RP_CODEGEN         ${ECRC_CMAKE_MODULE_PATH}/precision_generator/codegen.py)
 if( NOT DEFINED RP_${CMAKE_PROJECT_NAME}_DICTIONNARY )
   message( WARNING "RulesPrecisions included before RP_${CMAKE_PROJECT_NAME}_DICTIONNARY was defined (Default is used)" )
   set(RP_${CMAKE_PROJECT_NAME}_DICTIONNARY ${ECRC_CMAKE_MODULE_PATH}/precision_generator/subs.py
-      CACHE INTERNAL "Dictionnary used for precision generation" )
+    CACHE INTERNAL "Dictionnary used for precision generation" )
 else()
   set(RP_${CMAKE_PROJECT_NAME}_DICTIONNARY ${ECRC_CMAKE_MODULE_PATH}/precision_generator/subs.py
-     CACHE INTERNAL "Dictionnary used for precision generation" )
+    CACHE INTERNAL "Dictionnary used for precision generation" )
 endif()
-message("${RP_${CMAKE_PROJECT_NAME}_DICTIONNARY}")
+
 # Default Precisions
 # ------------------
 if( NOT DEFINED RP_${CMAKE_PROJECT_NAME}_PRECISIONS )
   message( WARNING "RulesPrecisions included before RP_${CMAKE_PROJECT_NAME}_PRECISIONS was defined (\"s;d;c;z\" is used)" )
   set(RP_${CMAKE_PROJECT_NAME}_PRECISIONS "s;d;c;z"
-      CACHE INTERNAL "Set of available precisions for the project" )
+    CACHE INTERNAL "Set of available precisions for the project" )
 else()
   set(RP_${CMAKE_PROJECT_NAME}_PRECISIONS ${RP_${CMAKE_PROJECT_NAME}_PRECISIONS}
     CACHE INTERNAL "Set of available precisions for the project" )
@@ -208,6 +208,7 @@ MACRO(precisions_rules_py)
   EXECUTE_PROCESS(COMMAND ${PYTHON_EXECUTABLE} ${RP_GENDEPENDENCIES} -f ${sources_list} -p ${options_list} -s ${CMAKE_CURRENT_SOURCE_DIR} ${PRECISIONPP_arg} ${PRECISIONPP_prefix}
           OUTPUT_VARIABLE dependencies_list)
   foreach(_dependency ${dependencies_list})
+
     string(STRIP "${_dependency}" _dependency)
     string(COMPARE NOTEQUAL "${_dependency}" "" not_empty)
     if( not_empty )
@@ -221,26 +222,27 @@ MACRO(precisions_rules_py)
       # Force the copy of the original files in the binary_dir
       # for VPATH compilation
       if( NOT ${CMAKE_PROJECT_NAME}_COMPILE_INPLACE )
-        set(generate_out 1)
+	set(generate_out 1)
       else( NOT ${CMAKE_PROJECT_NAME}_COMPILE_INPLACE )
-        string(COMPARE NOTEQUAL "${_dependency_OUTPUT}" "${_dependency_INPUT}" generate_out )
+	string(COMPARE NOTEQUAL "${_dependency_OUTPUT}" "${_dependency_INPUT}" generate_out )
       endif()
 
       # We generate a dependency only if a file will be generated
       if( got_file )
-        if( generate_out )
-          # the custom command is executed in CMAKE_CURRENT_BINARY_DIR
-          ADD_CUSTOM_COMMAND(
-                  OUTPUT ${_dependency_OUTPUT}
-                  COMMAND ${CMAKE_COMMAND} -E remove -f ${_dependency_OUTPUT} && ${PYTHON_EXECUTABLE} ${RP_CODEGEN} -f ${CMAKE_CURRENT_SOURCE_DIR}/${_dependency_INPUT} -p ${_dependency_PREC} ${PRECISIONPP_arg} ${PRECISIONPP_prefix}
-                  DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/${_dependency_INPUT} ${RP_CODEGEN} ${RP_${CMAKE_PROJECT_NAME}_DICTIONNARY})
+	if( generate_out )
+	  # the custom command is executed in CMAKE_CURRENT_BINARY_DIR
+	  ADD_CUSTOM_COMMAND(
+	          OUTPUT ${_dependency_OUTPUT}
+	          COMMAND ${CMAKE_COMMAND} -E remove -f ${_dependency_OUTPUT} && ${PYTHON_EXECUTABLE} ${RP_CODEGEN} -f ${CMAKE_CURRENT_SOURCE_DIR}/${_dependency_INPUT} -p ${_dependency_PREC} ${PRECISIONPP_arg} ${PRECISIONPP_prefix}
+	          DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/${_dependency_INPUT} ${RP_CODEGEN} ${RP_${CMAKE_PROJECT_NAME}_DICTIONNARY})
 
-          set_source_files_properties(${_dependency_OUTPUT} PROPERTIES COMPILE_FLAGS "-DPRECISION_${_dependency_PREC}" GENERATED 1 IS_IN_BINARY_DIR 1 )
-        else( generate_out )
-          set_source_files_properties(${_dependency_OUTPUT} PROPERTIES COMPILE_FLAGS "-DPRECISION_${_dependency_PREC}" GENERATED 0 )
-        endif( generate_out )
+	  set_source_files_properties(${_dependency_OUTPUT} PROPERTIES COMPILE_FLAGS "-DPRECISION_${_dependency_PREC}" GENERATED 1 IS_IN_BINARY_DIR 1 )
+	else( generate_out )
+	  set_source_files_properties(${_dependency_OUTPUT} PROPERTIES COMPILE_FLAGS "-DPRECISION_${_dependency_PREC}" GENERATED 0 )
 
-        list(APPEND ${OUTPUTLIST} ${_dependency_OUTPUT})
+	endif( generate_out )
+
+	list(APPEND ${OUTPUTLIST} ${_dependency_OUTPUT})
       endif( got_file )
     endif()
   endforeach()
