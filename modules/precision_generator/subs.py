@@ -622,6 +622,8 @@ subs = {
     ('', 'suncompress',         'duncompress',         'cuncompress',         'zuncompress'          ),
     ('', 'sgenrhs',         'dgenrhs',         'cgenrhs',         'zgenrhs'          ),
     ('', 'sgenmat',         'dgenmat',         'cgenmat',         'zgenmat'          ),
+    ('', 'sLapack_to_Tile',         'dLapack_to_Tile',         'cLapack_to_Tile',         'zLapack_to_Tile'          ),
+    ('', 'sTile_to_Lapack',         'dTile_to_Lapack',         'cTile_to_Lapack',         'zTile_to_Lapack'          ),
 
     # ----- LAPACK Eigenvalues
     ('', 'slatms',         'dlatms',         'slatms',         'dlatms'          ),
