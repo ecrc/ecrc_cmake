@@ -390,6 +390,7 @@ subs = {
     ('', 'TASK_slan',      'TASK_dlan',      'TASK_slan',      'TASK_dlan'       ),
     ('', 'RUNTIME_S',      'RUNTIME_D',      'RUNTIME_C',      'RUNTIME_Z'       ),
     ('', 'RUNTIME_s',      'RUNTIME_d',      'RUNTIME_c',      'RUNTIME_z'       ),
+    ('', 'hicma_s',      'hicma_d',      'hicma_c',      'hicma_z'       ),
 
     ('', 'TASK_s',         'TASK_d',         'TASK_s',         'TASK_d'          ),
     ('', 'dataflush',      'dataflush',      'dataflush',      'sataflush'       ), # Correct previous line
@@ -615,6 +616,12 @@ subs = {
     ('', 'sungesv',        'sungesv',        'cungesv',        'cungesv'         ),
     ('', 'sstegr',         'dstegr',         'cstegr',         'zstegr'          ),
     ('', 'ssyssq',         'dsyssq',         'csyssq',         'zsyssq'          ),
+    ('', 'sgytlr',         'dgytlr',         'cgytlr',         'zgytlr'          ),
+    ('', 'shagcm',         'dhagcm',         'chagcm',         'zhagcm'          ),
+    ('', 'shagdm',         'dhagdm',         'chagdm',         'zhagdm'          ),
+    ('', 'suncompress',         'duncompress',         'cuncompress',         'zuncompress'          ),
+    ('', 'sgenrhs',         'dgenrhs',         'cgenrhs',         'zgenrhs'          ),
+    ('', 'sgenmat',         'dgenmat',         'cgenmat',         'zgenmat'          ),
 
     # ----- LAPACK Eigenvalues
     ('', 'slatms',         'dlatms',         'slatms',         'dlatms'          ),
