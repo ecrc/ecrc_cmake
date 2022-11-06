@@ -48,12 +48,12 @@ subs = {
     ('DOUBLE PRECISION',          'COMPLEX_16'                       ),
     ('SINGLE PRECISION',          'COMPLEX'                          ),
     ('real',                      'complex'                          ),
-    ('float',                     'MORSE_Complex32_t'                ),
-    ('double',                    'MORSE_Complex64_t'                ),
-    ('float',                     'MORSE_voidComplex32_t'            ),
-    ('double',                    'MORSE_voidComplex64_t'            ),
-    ('MorseRealFloat',            'MorseComplexFloat'                ),
-    ('MorseRealDouble',           'MorseComplexDouble'               ),
+    ('float',                     'HICMA_Complex32_t'                ),
+    ('double',                    'HICMA_Complex64_t'                ),
+    ('float',                     'HICMA_voidComplex32_t'            ),
+    ('double',                    'HICMA_voidComplex64_t'            ),
+    ('HicmaRealFloat',            'HicmaComplexFloat'                ),
+    ('HicmaRealDouble',           'HicmaComplexDouble'               ),
 
     # ----- CBLAS
     ('',                          'CBLAS_SADDR'                      ),
@@ -75,11 +75,11 @@ subs = {
     ('magma_get_d',               'magma_get_z'                      ),
     ('magma_get_s',               'magma_get_c'                      ),
 
-    # ----- Prefixes MORSE
-    ('MORSE_D',                   'MORSE_Z'                          ),
-    ('MORSE_S',                   'MORSE_C'                          ),
-    ('morse_get_d',               'morse_get_z'                      ),
-    ('morse_get_s',               'morse_get_c'                      ),
+    # ----- Prefixes HICMA
+    ('HICMA_D',                   'HICMA_Z'                          ),
+    ('HICMA_S',                   'HICMA_C'                          ),
+    ('hicma_get_d',               'hicma_get_z'                      ),
+    ('hicma_get_s',               'hicma_get_c'                      ),
     ('TASK_S',                    'TASK_C'                           ),
     ('TASK_D',                    'TASK_Z'                           ),
     ('TASKS_S',                   'TASKS_C'                          ),
@@ -101,13 +101,13 @@ subs = {
     # ----- PLASMA / MAGMA
     ('magma_sdgetrs',             'magma_czgetrs'                    ),
 
-    # ----- MORSE
-    ('morse_sdgetrs',             'morse_czgetrs'                    ),
+    # ----- HICMA
+    ('hicma_sdgetrs',             'hicma_czgetrs'                    ),
 
     # ----- Constants
     ('CblasTrans',                'CblasConjTrans'                   ),
     ('MagmaTrans',                'MagmaConjTrans'                   ),
-    ('MorseTrans',                'MorseConjTrans'                   ),
+    ('HicmaTrans',                'HicmaConjTrans'                   ),
 
     # ----- BLAS and LAPACK, lowercase, alphabetic order
     # copy & paste these to uppercase below and fix case.
@@ -269,10 +269,10 @@ subs = {
     ('', 'float',                'double',                'PLASMA_Complex32_t',              r'\bPLASMA_Complex64_t'               ),
     ('', 'float',                'double',                'PLASMA_voidComplex32_t',          r'\bPLASMA_voidComplex64_t'           ),
     ('', 'PlasmaRealFloat',      'PlasmaRealDouble',      'PlasmaComplexFloat',              r'\bPlasmaComplexDouble'              ),
-    # MORSE
-    ('', 'float',                'double',                'MORSE_Complex32_t',               r'\bMORSE_Complex64_t'                ),
-    ('', 'float',                'double',                'MORSE_voidComplex32_t',           r'\bMORSE_voidComplex64_t'            ),
-    ('', 'MorseRealFloat',       'MorseRealDouble',       'MorseComplexFloat',               r'\bMorseComplexDouble'               ),
+    # HICMA
+    ('', 'float',                'double',                'HICMA_Complex32_t',               r'\bHICMA_Complex64_t'                ),
+    ('', 'float',                'double',                'HICMA_voidComplex32_t',           r'\bHICMA_voidComplex64_t'            ),
+    ('', 'HicmaRealFloat',       'HicmaRealDouble',       'HicmaComplexFloat',               r'\bHicmaComplexDouble'               ),
     # Pastix
     ('int',             'float',           'double',          'pastix_complex32_t', r'\bpastix_complex64_t'),
     ('int',             'float',           'double',          'float',              r'\bdouble'            ),
@@ -371,14 +371,14 @@ subs = {
     ('', 'Workspace_s',    'Workspace_d',    'Workspace_c',    'Workspace_z'     ),
     ('', 'workspace_s',    'workspace_d',    'workspace_c',    'workspace_z'     ),
 
-    # ----- Prefixes MORSE
-    ('', 'MORSE_S',        'MORSE_D',        'MORSE_C',        'MORSE_Z'         ),
-    ('', 'MORSE_sor',      'MORSE_dor',      'MORSE_cun',      'MORSE_zun'       ),
-    ('', 'MORSE_s',        'MORSE_d',        'MORSE_c',        'MORSE_z'         ),
-    ('', 'morse_get_s',    'morse_get_d',    'morse_get_c',    'morse_get_z'     ),
-    ('', 'morse_ps',       'morse_pd',       'morse_pc',       'morse_pz'        ),
-    ('', 'morse_s',        'morse_d',        'morse_c',        'morse_z'         ),
-    ('', 'morse_sdesc',    'morse_ddesc',    'morse_sdesc',    'morse_ddesc'     ),
+    # ----- Prefixes HICMA
+    ('', 'HICMA_S',        'HICMA_D',        'HICMA_C',        'HICMA_Z'         ),
+    ('', 'HICMA_sor',      'HICMA_dor',      'HICMA_cun',      'HICMA_zun'       ),
+    ('', 'HICMA_s',        'HICMA_d',        'HICMA_c',        'HICMA_z'         ),
+    ('', 'hicma_get_s',    'hicma_get_d',    'hicma_get_c',    'hicma_get_z'     ),
+    ('', 'hicma_ps',       'hicma_pd',       'hicma_pc',       'hicma_pz'        ),
+    ('', 'hicma_s',        'hicma_d',        'hicma_c',        'hicma_z'         ),
+    ('', 'hicma_sdesc',    'hicma_ddesc',    'hicma_sdesc',    'hicma_ddesc'     ),
     ('', 'TASK_sasum',     'TASK_dasum',     'TASK_scasum',    'TASK_dzasum'     ),
     ('', 'TASK_ssyrfb',    'TASK_dsyrfb',    'TASK_cherfb',    'TASK_zherfb'     ),
     ('', 'TASK_stsmlq_sy', 'TASK_dtsmlq_sy', 'TASK_ctsmlq_he', 'TASK_ztsmlq_he'  ),
@@ -422,10 +422,10 @@ subs = {
     ('', 'cublasIsamax',   'cublasIdamax',   'cublasIsamax',   'cublasIdamax'    ),
     ('', 'cublasSnrm2',    'cublasDnrm2',    'cublasScnrm2',   'cublasDznrm2'    ),
 
-    # ----- PLASMA / MAGMA / MORSE
+    # ----- PLASMA / MAGMA / HICMA
     ('', 'bsy2trc',        'bsy2trc',        'bhe2trc',        'bhe2trc'         ),
     ('', 'magma_ssqrt',    'magma_dsqrt',    'magma_ssqrt',    'magma_dsqrt'     ),
-    ('', 'morse_ssqrt',    'morse_dsqrt',    'morse_ssqrt',    'morse_dsqrt'     ),
+    ('', 'hicma_ssqrt',    'hicma_dsqrt',    'hicma_ssqrt',    'hicma_dsqrt'     ),
     ('', 'SAUXILIARY',     'DAUXILIARY',     'CAUXILIARY',     'ZAUXILIARY'      ),
     ('', 'sauxiliary',     'dauxiliary',     'cauxiliary',     'zauxiliary'      ),
     ('', 'sbcyclic',       'dbcyclic',       'cbcyclic',       'zbcyclic'        ),
@@ -457,7 +457,7 @@ subs = {
     # ----- Constants
     ('CblasTrans',  'CblasTrans',  'CblasTrans',  'CblasConjTrans',  r'\bCblasConjTrans'  ),
     ('MagmaTrans',  'MagmaTrans',  'MagmaTrans',  'MagmaConjTrans',  r'\bMagmaConjTrans'  ),
-    ('MorseTrans',  'MorseTrans',  'MorseTrans',  'MorseConjTrans',  r'\bMorseConjTrans'  ),
+    ('HicmaTrans',  'HicmaTrans',  'HicmaTrans',  'HicmaConjTrans',  r'\bHicmaConjTrans'  ),
     ('PlasmaTrans', 'PlasmaTrans', 'PlasmaTrans', 'PlasmaConjTrans', r'\bPlasmaConjTrans' ),
     ('PastixTrans', 'PastixTrans', 'PastixTrans', 'PastixConjTrans', r'\bPastixConjTrans' ),
 
@@ -489,8 +489,17 @@ subs = {
     ('', 'strmv',          'dtrmv',          'ctrmv',          'ztrmv'           ),
     ('', 'strsm',          'dtrsm',          'ctrsm',          'ztrsm'           ),
     ('', 'strsv',          'dtrsv',          'ctrsv',          'ztrsv'           ),
+    ('', 'sgytlr',         'dgytlr',         'cgytlr',         'zgytlr'          ),
+    ('', 'shagcm',         'dhagcm',         'chagcm',         'zhagcm'          ),
+    ('', 'shagdm',         'dhagdm',         'chagdm',         'zhagdm'          ),
+    ('', 'suncompress',         'duncompress',         'cuncompress',         'zuncompress'          ),
+    ('', 'sgenrhs',         'dgenrhs',         'cgenrhs',         'zgenrhs'          ),
+    ('', 'sgenmat',         'dgenmat',         'cgenmat',         'zgenmat'          ),
+    ('', 'sLapack_to_Tile',         'dLapack_to_Tile',         'cLapack_to_Tile',         'zLapack_to_Tile'          ),
+    ('', 'sTile_to_Lapack',         'dTile_to_Lapack',         'cTile_to_Lapack',         'zTile_to_Lapack'          ),
 
-# ADD FOR NEW VERSION OF CHAMELEON
+
+    # ADD FOR NEW VERSION OF CHAMELEON
     ('', 'shbcpy',         'dhbcpy',         'chbcpy',         'zhbcpy'          ),
     ('', 'ssyrbt',         'dsyrbt',         'cherbt',         'zherbt'          ),
     ('', 'ssygv',          'dsygv',          'chegv',          'zhegv'           ),
