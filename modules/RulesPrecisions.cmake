@@ -39,7 +39,7 @@ if( NOT DEFINED RP_${CMAKE_PROJECT_NAME}_DICTIONNARY )
   set(RP_${CMAKE_PROJECT_NAME}_DICTIONNARY ${ECRC_CMAKE_MODULE_PATH}/precision_generator/subs.py
     CACHE INTERNAL "Dictionnary used for precision generation" )
 else()
-  set(RP_${CMAKE_PROJECT_NAME}_DICTIONNARY ${RP_${CMAKE_PROJECT_NAME}_DICTIONNARY}
+  set(RP_${CMAKE_PROJECT_NAME}_DICTIONNARY ${ECRC_CMAKE_MODULE_PATH}/precision_generator/subs.py
     CACHE INTERNAL "Dictionnary used for precision generation" )
 endif()
 
@@ -157,6 +157,10 @@ endif()
 # the target receives a -DPRECISION_p in its cflags.
 #
 include(ParseArguments)
+
+# Add a hint to help Cmake to find the correct python version:
+# (see https://cmake.org/cmake/help/v3.0/module/FindPythonInterp.html)
+set(Python_ADDITIONAL_VERSIONS 2)
 find_package(PythonInterp REQUIRED)
 
 MACRO(precisions_rules_py)
@@ -201,9 +205,8 @@ MACRO(precisions_rules_py)
     set(sources_list "${sources_list} ${_src}")
   endforeach()
 
-  set(gencmd ${PYTHON_EXECUTABLE} ${RP_GENDEPENDENCIES} -f "${sources_list}" -p "${options_list}" -s "${CMAKE_CURRENT_SOURCE_DIR}" ${PRECISIONPP_arg} ${PRECISIONPP_prefix})
-  EXECUTE_PROCESS(COMMAND ${gencmd} OUTPUT_VARIABLE dependencies_list)
-
+  EXECUTE_PROCESS(COMMAND ${PYTHON_EXECUTABLE} ${RP_GENDEPENDENCIES} -f ${sources_list} -p ${options_list} -s ${CMAKE_CURRENT_SOURCE_DIR} ${PRECISIONPP_arg} ${PRECISIONPP_prefix}
+          OUTPUT_VARIABLE dependencies_list)
   foreach(_dependency ${dependencies_list})
 
     string(STRIP "${_dependency}" _dependency)
@@ -213,9 +216,6 @@ MACRO(precisions_rules_py)
       string(REGEX REPLACE "^(.*),(.*),(.*)$" "\\1" _dependency_INPUT "${_dependency}")
       set(_dependency_PREC   "${CMAKE_MATCH_2}")
       set(_dependency_OUTPUT "${CMAKE_MATCH_3}")
-
-      set(pythoncmd ${PYTHON_EXECUTABLE} ${RP_CODEGEN} -f ${CMAKE_CURRENT_SOURCE_DIR}/${_dependency_INPUT} -p ${_dependency_PREC} ${PRECISIONPP_arg} ${PRECISIONPP_prefix})
-
       string(STRIP "${_dependency_OUTPUT}" _dependency_OUTPUT)
       string(COMPARE NOTEQUAL "${_dependency_OUTPUT}" "" got_file)
 
@@ -233,7 +233,7 @@ MACRO(precisions_rules_py)
 	  # the custom command is executed in CMAKE_CURRENT_BINARY_DIR
 	  ADD_CUSTOM_COMMAND(
 	    OUTPUT ${_dependency_OUTPUT}
-	    COMMAND ${CMAKE_COMMAND} -E remove -f ${_dependency_OUTPUT} && ${pythoncmd} && chmod a-w ${_dependency_OUTPUT}
+	    COMMAND ${CMAKE_COMMAND} -E remove -f ${_dependency_OUTPUT} && ${PYTHON_EXECUTABLE} ${RP_CODEGEN} -f ${CMAKE_CURRENT_SOURCE_DIR}/${_dependency_INPUT} -p ${_dependency_PREC} ${PRECISIONPP_arg} ${PRECISIONPP_prefix}
 	    DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/${_dependency_INPUT} ${RP_CODEGEN} ${RP_${CMAKE_PROJECT_NAME}_DICTIONNARY})
 
 	  set_SOURCE_FILES_PROPERTIES(${_dependency_OUTPUT} PROPERTIES COMPILE_FLAGS "-DPRECISION_${_dependency_PREC}" GENERATED 1 IS_IN_BINARY_DIR 1 )
