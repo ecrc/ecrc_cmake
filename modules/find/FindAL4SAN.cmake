@@ -6,7 +6,9 @@
 # @copyright (c) 2012-2016 Inria. All rights reserved.
 # @copyright (c) 2012-2014 Bordeaux INP, CNRS (LaBRI UMR 5800), Inria, Univ. Bordeaux. All rights reserved.
 #
-# @copyright 2017-2018 King Abdullah University of Science and Technology (KAUST). All rights reserved.
+# @copyright (c) 2022 King Abdullah University of Science and Technology (KAUST).
+#                     All rights reserved.
+#
 ###
 #
 # - Find AL4SAN include dirs and libraries

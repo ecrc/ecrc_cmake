@@ -1,4 +1,7 @@
-#    Copyright (c) 2010-2017, Delft University of Technology
+ # @copyright (c) 2022 King Abdullah University of Science and Technology (KAUST).
+ #                     All rights reserved.
+ #
+ #    Copyright (c) 2010-2017, Delft University of Technology
  #    All rigths reserved
  #
  #    This file is part of the Tudat. Redistribution and use in source and

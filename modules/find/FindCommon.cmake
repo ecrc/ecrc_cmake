@@ -1,6 +1,8 @@
 ###
 #
 # @copyright (c) 2018 Inria. All rights reserved.
+# @copyright (c) 2022 King Abdullah University of Science and Technology (KAUST).
+#                     All rights reserved.
 #
 ###
 #
